@@ -1,3 +1,3 @@
-## 0.0.1
+## 0.0.3
 
-* docs: update readme.md. 
+* chore: remove unused code. 
