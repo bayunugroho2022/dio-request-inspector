@@ -12,8 +12,8 @@ class DioRequestRepositoryImpl implements DioRequestRepository {
 
   @override
   Future<Either<Failure, List<HttpActivity>>> getListResponse() async {
-      final response = localDataSource!.getAllResponse();
-      return Right(response);
+    final response = localDataSource!.getAllResponse();
+    return Right(response);
   }
 
   @override
@@ -23,7 +23,8 @@ class DioRequestRepositoryImpl implements DioRequestRepository {
   }
 
   @override
-  Future<Either<Failure, String>> saveRequestUseCase(RequestOptions options) async {
+  Future<Either<Failure, String>> saveRequestUseCase(
+      RequestOptions options) async {
     final result = await localDataSource?.saveRequest(options);
     return Right(result!);
   }

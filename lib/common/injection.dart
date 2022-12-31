@@ -13,18 +13,21 @@ final locator = GetIt.instance;
 void init() {
   //repositories
   locator.registerLazySingleton<DioRequestRepository>(
-        () => DioRequestRepositoryImpl(
+    () => DioRequestRepositoryImpl(
       localDataSource: LocalDataSourceImpl(),
     ),
   );
 
   //usecases
-  locator.registerLazySingleton<SaveResponseUseCase>(() => SaveResponseUseCase(locator()));
-  locator.registerLazySingleton<SaveRequestUseCase>(() => SaveRequestUseCase(locator()));
-  locator.registerLazySingleton<SaveErrorUseCase>(() => SaveErrorUseCase(locator()));
-  locator.registerLazySingleton<GetLogUseCase>(() => GetLogUseCase(DioRequestRepositoryImpl(localDataSource: LocalDataSourceImpl())));
+  locator.registerLazySingleton<SaveResponseUseCase>(
+      () => SaveResponseUseCase(locator()));
+  locator.registerLazySingleton<SaveRequestUseCase>(
+      () => SaveRequestUseCase(locator()));
+  locator.registerLazySingleton<SaveErrorUseCase>(
+      () => SaveErrorUseCase(locator()));
+  locator.registerLazySingleton<GetLogUseCase>(() => GetLogUseCase(
+      DioRequestRepositoryImpl(localDataSource: LocalDataSourceImpl())));
 
   // provider
   locator.registerLazySingleton<DashboardNotifier>(() => locator());
-
 }

@@ -19,7 +19,9 @@ class DetailPage extends StatelessWidget {
       builder: (context, child) => Scaffold(
         appBar: AppBar(
             title: const Text('Detail Activity'),
-            backgroundColor: data.response?.responseStatusCode?.colorByStatusCode ?? Colors.red),
+            backgroundColor:
+                data.response?.responseStatusCode?.colorByStatusCode ??
+                    Colors.red),
         body: _buildBody(context),
       ),
     );

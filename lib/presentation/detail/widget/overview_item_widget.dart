@@ -5,7 +5,8 @@ class ListRowWidget extends StatelessWidget {
   final String? value;
   final double? space;
 
-  const ListRowWidget({Key? key, this.name, this.value, this.space = 0.0}) : super(key: key);
+  const ListRowWidget({Key? key, this.name, this.value, this.space = 0.0})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
