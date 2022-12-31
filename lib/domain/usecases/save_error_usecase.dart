@@ -11,5 +11,4 @@ class SaveErrorUseCase {
   Future<Either<Failure, String>> execute(DioError error) {
     return repository!.saveErrorUseCase(error);
   }
-
 }

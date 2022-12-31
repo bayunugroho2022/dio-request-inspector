@@ -43,8 +43,9 @@ class DashboardNotifier extends ChangeNotifier {
         _getAllResponsesState = RequestState.loaded;
         _getAllResponses = responses;
         _getAllResponses.sort(
-              (call1, call2) =>
-          call2.request?.createdAt?.compareTo(call1.request!.createdAt!) ?? -1,
+          (call1, call2) =>
+              call2.request?.createdAt?.compareTo(call1.request!.createdAt!) ??
+              -1,
         );
         notifyListeners();
       },

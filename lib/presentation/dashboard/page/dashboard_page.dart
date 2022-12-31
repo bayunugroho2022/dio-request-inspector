@@ -20,7 +20,8 @@ class DashboardPage extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.refresh),
               onPressed: () {
-                Provider.of<DashboardNotifier>(context, listen: false).fetchAllResponses();
+                Provider.of<DashboardNotifier>(context, listen: false)
+                    .fetchAllResponses();
               },
             ),
           ],
@@ -49,7 +50,8 @@ class DashboardPage extends StatelessWidget {
             var data = provider.getAllResponses[index];
             return InkWell(
                 onTap: () {
-                  Navigator.push<void>(context,
+                  Navigator.push<void>(
+                    context,
                     MaterialPageRoute(
                       builder: (context) => DetailPage(
                         data: data,
@@ -63,5 +65,4 @@ class DashboardPage extends StatelessWidget {
       },
     );
   }
-
 }

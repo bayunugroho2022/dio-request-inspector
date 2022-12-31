@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 class JsonUtil {
-
   static Map<String, dynamic>? tryDecodeRawJson(String? rawJson) {
     try {
       final decoded = json.decode(rawJson!);
@@ -20,8 +19,10 @@ class JsonUtil {
     }
   }
 
-  Map<String, String>? compileHeader(Map<String, String>? globalHeaders,
-      Map<String, String>? headers,) {
+  Map<String, String>? compileHeader(
+    Map<String, String>? globalHeaders,
+    Map<String, String>? headers,
+  ) {
     if (globalHeaders != null) {
       if (headers != null) {
         for (var key in headers.keys) {
@@ -41,7 +42,8 @@ class JsonUtil {
       return (rawJson.isNotEmpty) ? json.encode(rawJson) : null;
     } else if (rawJson is List<dynamic>) {
       return (rawJson.isNotEmpty) ? json.encode(rawJson) : null;
-    } if (rawJson is String) {
+    }
+    if (rawJson is String) {
       return rawJson.isNotEmpty ? rawJson : null;
     } else {
       return rawJson.toString();

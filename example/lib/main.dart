@@ -3,11 +3,13 @@ import 'package:dio_request_inspector/presentation/main/page/main_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-DioRequestInspector dioRequestInspector = DioRequestInspector(isDebugMode: true);
+DioRequestInspector dioRequestInspector =
+    DioRequestInspector(isDebugMode: true);
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(DioRequestInspectorMain(inspector: dioRequestInspector, child: const MyApp()));
+  runApp(DioRequestInspectorMain(
+      inspector: dioRequestInspector, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -102,10 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _postRequest() {
-    _dio.post("https://httpbin.org/post", data: {
-      "name": "dio",
-      "age": 25
-    });
+    _dio.post("https://httpbin.org/post", data: {"name": "dio", "age": 25});
   }
 
   void _errorRequest() {

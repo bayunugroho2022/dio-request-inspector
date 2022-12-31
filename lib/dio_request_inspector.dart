@@ -28,7 +28,6 @@ class DioRequestInspector {
         builder: (context) => const DashboardPage(),
       ),
     );
-
   }
 
   Interceptor getDioRequestInterceptor() {

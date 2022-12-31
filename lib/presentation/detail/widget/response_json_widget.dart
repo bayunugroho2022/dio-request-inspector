@@ -26,7 +26,7 @@ class ResponseJson extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SelectableText(
-                 value!.isJson ? value! : value!,
+                  value!.isJson ? value! : value!,
                 ),
               ),
             ),
@@ -36,4 +36,3 @@ class ResponseJson extends StatelessWidget {
     );
   }
 }
-

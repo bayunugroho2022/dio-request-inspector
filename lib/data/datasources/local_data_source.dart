@@ -39,7 +39,8 @@ class LocalDataSourceImpl implements LocalDataSource {
     );
     _responses.addAll([httpResponse]);
     HttpActivity httpActivity = _activities.firstWhere(
-        (data) => data.request?.requestHashCode == response.requestOptions.hashCode,
+        (data) =>
+            data.request?.requestHashCode == response.requestOptions.hashCode,
         orElse: () => HttpActivity());
     httpActivity.response = httpResponse;
     return Future.value('success');
@@ -82,7 +83,8 @@ class LocalDataSourceImpl implements LocalDataSource {
     );
     _errors.addAll([httpError]);
     HttpActivity httpActivity = _activities.firstWhere(
-        (data) => data.request?.requestHashCode == error.requestOptions.hashCode,
+        (data) =>
+            data.request?.requestHashCode == error.requestOptions.hashCode,
         orElse: () => HttpActivity());
     httpActivity.error = httpError;
     httpActivity.response = HttpResponse(

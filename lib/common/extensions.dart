@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-
 Map<String, dynamic> listToMap(List list) {
   Map<String, dynamic> map = {};
   for (var i = 0; i < list.length; i++) {

@@ -22,11 +22,14 @@ class ItemResponseWidget extends StatelessWidget {
             children: [
               Container(
                   decoration: BoxDecoration(
-                    color: data.response?.responseStatusCode?.colorByStatusCode ?? Colors.red,
+                    color:
+                        data.response?.responseStatusCode?.colorByStatusCode ??
+                            Colors.red,
                     borderRadius: BorderRadius.circular(4),
                   ),
                   padding: const EdgeInsets.all(6),
-                  child: Text('${data.request?.method}',
+                  child: Text(
+                    '${data.request?.method}',
                     style: const TextStyle(color: Colors.white),
                   )),
               Expanded(
@@ -35,10 +38,14 @@ class ItemResponseWidget extends StatelessWidget {
                 child: Text(
                   '${data.request?.path}',
                   textAlign: TextAlign.left,
-                  style: TextStyle(color: data.response?.responseStatusCode?.colorByStatusCode ?? Colors.red),
+                  style: TextStyle(
+                      color: data.response?.responseStatusCode
+                              ?.colorByStatusCode ??
+                          Colors.red),
                 ),
               )),
-              textStatusCode(statusCode: data.response?.responseStatusCode ?? 0),
+              textStatusCode(
+                  statusCode: data.response?.responseStatusCode ?? 0),
             ],
           ),
         ),
@@ -46,17 +53,34 @@ class ItemResponseWidget extends StatelessWidget {
     );
   }
 
-  Widget textStatusCode ({int statusCode = 0}) {
+  Widget textStatusCode({int statusCode = 0}) {
     if (statusCode >= 200 && statusCode < 300) {
-      return Text(statusCode.toString(), style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),);
+      return Text(
+        statusCode.toString(),
+        style:
+            const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+      );
     } else if (statusCode >= 300 && statusCode < 400) {
-      return Text(statusCode.toString(), style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),);
+      return Text(
+        statusCode.toString(),
+        style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+      );
     } else if (statusCode >= 400 && statusCode < 500) {
-      return Text(statusCode.toString(), style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),);
+      return Text(
+        statusCode.toString(),
+        style:
+            const TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
+      );
     } else if (statusCode >= 500 && statusCode < 600) {
-      return Text(statusCode.toString(), style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),);
+      return Text(
+        statusCode.toString(),
+        style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+      );
     } else {
-      return const Text('Err', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),);
+      return const Text(
+        'Err',
+        style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+      );
     }
   }
 }

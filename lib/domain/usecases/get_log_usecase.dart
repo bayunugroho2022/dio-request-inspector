@@ -11,5 +11,4 @@ class GetLogUseCase {
   Future<Either<Failure, List<HttpActivity>>> execute() {
     return repository!.getListResponse();
   }
-
 }

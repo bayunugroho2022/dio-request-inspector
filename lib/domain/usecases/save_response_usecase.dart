@@ -11,5 +11,4 @@ class SaveResponseUseCase {
   Future<Either<Failure, String>> execute(Response response) {
     return repository!.saveResponse(response);
   }
-
 }

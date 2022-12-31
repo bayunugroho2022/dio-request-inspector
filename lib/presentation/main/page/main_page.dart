@@ -6,9 +6,7 @@ class DioRequestInspectorMain extends StatelessWidget {
   final DioRequestInspector inspector;
 
   const DioRequestInspectorMain(
-      {Key? key,
-      required this.child,
-      required this.inspector})
+      {Key? key, required this.child, required this.inspector})
       : super(key: key);
 
   @override
