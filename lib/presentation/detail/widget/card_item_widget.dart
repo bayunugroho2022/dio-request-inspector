@@ -2,10 +2,10 @@ import 'package:dio_request_inspector/common/extensions.dart';
 import 'package:flutter/material.dart';
 
 class CardItem extends StatelessWidget {
-  String? name;
-  String? value;
+  final String? name;
+  final String? value;
 
-  CardItem({Key? key, this.name, this.value}) : super(key: key);
+  const CardItem({Key? key, this.name, this.value}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

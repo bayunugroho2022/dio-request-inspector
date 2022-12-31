@@ -19,7 +19,7 @@ class DashboardNotifier extends ChangeNotifier {
 
   List<HttpActivity> get getAllResponses => _getAllResponses;
 
-  RequestState _getAllResponsesState = RequestState.Empty;
+  RequestState _getAllResponsesState = RequestState.empty;
 
   RequestState get getAllResponsesState => _getAllResponsesState;
 
@@ -28,19 +28,19 @@ class DashboardNotifier extends ChangeNotifier {
   String get message => _message;
 
   Future<void> fetchAllResponses() async {
-    _getAllResponsesState = RequestState.Loading;
+    _getAllResponsesState = RequestState.loading;
     notifyListeners();
 
     final result = await getLogUseCase!.execute();
 
     result.fold(
       (failure) {
-        _getAllResponsesState = RequestState.Error;
+        _getAllResponsesState = RequestState.error;
         _message = failure.message;
         notifyListeners();
       },
       (responses) {
-        _getAllResponsesState = RequestState.Loaded;
+        _getAllResponsesState = RequestState.loaded;
         _getAllResponses = responses;
         _getAllResponses.sort(
               (call1, call2) =>

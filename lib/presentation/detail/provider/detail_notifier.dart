@@ -48,7 +48,7 @@ class DetailNotifier extends ChangeNotifier {
     _overviews.add(ListRowWidget(name: "Duration:", value: duration));
     _overviews.add(ListRowWidget(name: "Client:", value: '${data?.request?.client}'));
     _overviews.add(ListRowWidget(name: "Secure:", value: '${data?.request?.secure}'));
-    _overviews.add(ListRowWidget(space: 10));
+    _overviews.add(const ListRowWidget(space: 10));
 
     // request
     _requests = <Widget>[];
@@ -60,13 +60,13 @@ class DetailNotifier extends ChangeNotifier {
 
     // response
     _responses = <Widget>[];
-    _responses.add(ListRowWidget(space: 8));
+    _responses.add(const ListRowWidget(space: 8));
     _responses.add(ListRowWidget(name: 'Received: ', value: '${data?.response?.createdAt?.toDateTime}'));
     _responses.add(ListRowWidget(name: "Status Code:", value: '${data?.response?.responseStatusCode}'));
     if (data?.response?.responseSize != null) _responses.add(ListRowWidget(name: "Bytes received:", value: '${data?.response?.responseSize.byteToKiloByte()}'));
     _responses.add(ResponseHeaderWidget(headers: data?.response?.responseHeader,));
     _responses.add(CardItem(name: "Body", value: data?.response?.responseBody ?? "N/A"));
-    _responses.add(ListRowWidget(space: 20));
+    _responses.add(const ListRowWidget(space: 20));
 
     //error
     _errors = <Widget>[];
