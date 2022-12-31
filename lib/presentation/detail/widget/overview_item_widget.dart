@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ListRowWidget extends StatelessWidget {
-  String? name;
-  String? value;
-  double? space;
+  final String? name;
+  final String? value;
+  final double? space;
 
-  ListRowWidget({Key? key, this.name, this.value, this.space = 0.0}) : super(key: key);
+  const ListRowWidget({Key? key, this.name, this.value, this.space = 0.0}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

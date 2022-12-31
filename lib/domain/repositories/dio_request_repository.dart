@@ -1,7 +1,6 @@
 import 'package:dio_request_inspector/data/models/http_activity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio_request_inspector/common/failure.dart';
-import 'package:dio_request_inspector/data/models/http_response.dart';
 import 'package:dio/dio.dart';
 
 abstract class DioRequestRepository {

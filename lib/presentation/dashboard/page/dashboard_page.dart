@@ -33,7 +33,7 @@ class DashboardPage extends StatelessWidget {
   Widget buildBody(BuildContext context) {
     return Consumer<DashboardNotifier>(
       builder: (context, provider, child) {
-        if (provider.getAllResponsesState == RequestState.Loading) {
+        if (provider.getAllResponsesState == RequestState.loading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
