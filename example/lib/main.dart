@@ -7,10 +7,11 @@ DioRequestInspector dioRequestInspector = DioRequestInspector(isDebugMode: true)
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(DioRequestInspectorMain(inspector: dioRequestInspector, child: MyApp()));
+  runApp(DioRequestInspectorMain(inspector: dioRequestInspector, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,35 +59,35 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: _getRequest,
               style: ElevatedButton.styleFrom(
-                primary: Colors.purple.withOpacity(0.6),
+                backgroundColor: Colors.purple.withOpacity(0.6),
               ),
               child: const Text("GET Request"),
             ),
             ElevatedButton(
               onPressed: _getImageRequest,
               style: ElevatedButton.styleFrom(
-                primary: Colors.purple.withOpacity(0.6),
+                backgroundColor: Colors.purple.withOpacity(0.6),
               ),
               child: const Text("GET Image Request"),
             ),
             ElevatedButton(
               onPressed: _postRequest,
               style: ElevatedButton.styleFrom(
-                primary: Colors.purple.withOpacity(0.6),
+                backgroundColor: Colors.purple.withOpacity(0.6),
               ),
               child: const Text("POST Request"),
             ),
             ElevatedButton(
               onPressed: _errorRequest,
               style: ElevatedButton.styleFrom(
-                primary: Colors.purple.withOpacity(0.6),
+                backgroundColor: Colors.purple.withOpacity(0.6),
               ),
               child: const Text("Error Request"),
             ),
             ElevatedButton(
               onPressed: _seeInspector,
               style: ElevatedButton.styleFrom(
-                primary: Colors.purple.withOpacity(0.6),
+                backgroundColor: Colors.purple.withOpacity(0.6),
               ),
               child: const Text("See Inspector"),
             ),
