@@ -1,11 +1,6 @@
 import 'dart:convert';
 
-import 'byte_util.dart';
-import 'date_time_util.dart';
-
 class JsonUtil {
-  final _byteUtil = ByteUtil();
-  final _dateTimeUtil = DateTimeUtil();
 
   static Map<String, dynamic>? tryDecodeRawJson(String? rawJson) {
     try {
