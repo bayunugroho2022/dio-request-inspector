@@ -15,7 +15,7 @@ Request inspector package for Flutter, Allows checking HTTP connections with UI 
 
 ## Some screenshots
 <div align="center">
-<img src="https://user-images.githubusercontent.com/91040581/210127540-061e99ff-d869-402e-bbf5-f20be5473849.jpeg" width="250">
+<img src="https://user-images.githubusercontent.com/91040581/210163883-dda54671-004a-4303-b04e-8bb6538c5a04.jpeg" width="250">
 <img src="https://user-images.githubusercontent.com/91040581/210127542-aeccddf9-e11e-41db-ab6c-c28ddfc12677.jpeg" width="250">
 <img src="https://user-images.githubusercontent.com/91040581/210127541-8917d5e3-887d-43d4-9a03-685ab75468b3.jpeg" width="250">
 <img src="https://user-images.githubusercontent.com/91040581/210127543-c9b4bd52-ec0a-46e6-b408-007f12dcfd1d.jpeg" width="250">
@@ -51,19 +51,22 @@ import 'package:dio_request_inspector/presentation/main/page/main_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-DioRequestInspector dioRequestInspector = DioRequestInspector(isDebugMode: true);
+DioRequestInspector dioRequestInspector =
+DioRequestInspector(isDebugMode: true);
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(DioRequestInspectorMain(inspector: dioRequestInspector, child: MyApp()));
+  runApp(DioRequestInspectorMain(
+      inspector: dioRequestInspector, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Dio Request Inspector',
       navigatorKey: dioRequestInspector.getNavigatorKey,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -94,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Awesome Inspectore Example'),
+        title: const Text('Dio Request Inspector Example'),
         backgroundColor: Colors.purple.withOpacity(0.6),
       ),
       body: Container(
@@ -103,38 +106,53 @@ class _MyHomePageState extends State<MyHomePage> {
         height: double.infinity,
         child: ListView(
           children: [
+            const SizedBox(
+              height: 16,
+            ),
             ElevatedButton(
               onPressed: _getRequest,
               style: ElevatedButton.styleFrom(
-                primary: Colors.purple.withOpacity(0.6),
+                backgroundColor: Colors.purple.withOpacity(0.6),
               ),
               child: const Text("GET Request"),
+            ),
+            const SizedBox(
+              height: 16,
             ),
             ElevatedButton(
               onPressed: _getImageRequest,
               style: ElevatedButton.styleFrom(
-                primary: Colors.purple.withOpacity(0.6),
+                backgroundColor: Colors.purple.withOpacity(0.6),
               ),
               child: const Text("GET Image Request"),
+            ),
+            const SizedBox(
+              height: 16,
             ),
             ElevatedButton(
               onPressed: _postRequest,
               style: ElevatedButton.styleFrom(
-                primary: Colors.purple.withOpacity(0.6),
+                backgroundColor: Colors.purple.withOpacity(0.6),
               ),
               child: const Text("POST Request"),
+            ),
+            const SizedBox(
+              height: 16,
             ),
             ElevatedButton(
               onPressed: _errorRequest,
               style: ElevatedButton.styleFrom(
-                primary: Colors.purple.withOpacity(0.6),
+                backgroundColor: Colors.purple.withOpacity(0.6),
               ),
               child: const Text("Error Request"),
+            ),
+            const SizedBox(
+              height: 16,
             ),
             ElevatedButton(
               onPressed: _seeInspector,
               style: ElevatedButton.styleFrom(
-                primary: Colors.purple.withOpacity(0.6),
+                backgroundColor: Colors.purple.withOpacity(0.6),
               ),
               child: const Text("See Inspector"),
             ),
@@ -149,10 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _postRequest() {
-    _dio.post("https://httpbin.org/post", data: {
-      "name": "dio",
-      "age": 25
-    });
+    _dio.post("https://httpbin.org/post", data: {"name": "dio", "age": 25});
   }
 
   void _errorRequest() {
