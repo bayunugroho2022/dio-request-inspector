@@ -15,7 +15,7 @@ Request inspector package for Flutter, Allows checking HTTP connections with UI 
 
 ## Some screenshots
 <div align="center">
-<img src="https://user-images.githubusercontent.com/91040581/210127540-061e99ff-d869-402e-bbf5-f20be5473849.jpeg" width="250">
+<img src="https://user-images.githubusercontent.com/91040581/210163883-dda54671-004a-4303-b04e-8bb6538c5a04.jpeg" width="250">
 <img src="https://user-images.githubusercontent.com/91040581/210127542-aeccddf9-e11e-41db-ab6c-c28ddfc12677.jpeg" width="250">
 <img src="https://user-images.githubusercontent.com/91040581/210127541-8917d5e3-887d-43d4-9a03-685ab75468b3.jpeg" width="250">
 <img src="https://user-images.githubusercontent.com/91040581/210127543-c9b4bd52-ec0a-46e6-b408-007f12dcfd1d.jpeg" width="250">
