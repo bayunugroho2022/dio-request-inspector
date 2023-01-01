@@ -16,15 +16,14 @@ class DashboardPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Http Activities'),
           backgroundColor: Colors.purple.withOpacity(0.6),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.refresh),
-              onPressed: () {
-                Provider.of<DashboardNotifier>(context, listen: false)
-                    .fetchAllResponses();
-              },
-            ),
-          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Provider.of<DashboardNotifier>(context, listen: false)
+                .fetchAllResponses();
+          },
+          backgroundColor: Colors.purple.withOpacity(0.6),
+          child: const Icon(Icons.refresh),
         ),
         body: buildBody(context),
       ),

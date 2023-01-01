@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Dio Request Inspector',
       navigatorKey: dioRequestInspector.getNavigatorKey,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Awesome Inspectore Example'),
+        title: const Text('Dio Request Inspector Example'),
         backgroundColor: Colors.purple.withOpacity(0.6),
       ),
       body: Container(
@@ -58,12 +58,18 @@ class _MyHomePageState extends State<MyHomePage> {
         height: double.infinity,
         child: ListView(
           children: [
+            const SizedBox(
+              height: 16,
+            ),
             ElevatedButton(
               onPressed: _getRequest,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple.withOpacity(0.6),
               ),
               child: const Text("GET Request"),
+            ),
+            const SizedBox(
+              height: 16,
             ),
             ElevatedButton(
               onPressed: _getImageRequest,
@@ -72,6 +78,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: const Text("GET Image Request"),
             ),
+            const SizedBox(
+              height: 16,
+            ),
             ElevatedButton(
               onPressed: _postRequest,
               style: ElevatedButton.styleFrom(
@@ -79,12 +88,18 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: const Text("POST Request"),
             ),
+            const SizedBox(
+              height: 16,
+            ),
             ElevatedButton(
               onPressed: _errorRequest,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple.withOpacity(0.6),
               ),
               child: const Text("Error Request"),
+            ),
+            const SizedBox(
+              height: 16,
             ),
             ElevatedButton(
               onPressed: _seeInspector,
