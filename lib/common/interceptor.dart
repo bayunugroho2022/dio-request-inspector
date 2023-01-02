@@ -4,8 +4,7 @@ import 'package:dio_request_inspector/domain/usecases/save_error_usecase.dart';
 import 'package:dio_request_inspector/domain/usecases/save_request_usecase.dart';
 import 'package:dio_request_inspector/domain/usecases/save_response_usecase.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/navigator.dart';
+import 'package:flutter/material.dart';
 
 class Interceptor extends InterceptorsWrapper {
   SaveResponseUseCase? saveResponseUseCase;
