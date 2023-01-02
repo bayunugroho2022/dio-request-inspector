@@ -14,6 +14,7 @@ class ItemResponseWidget extends StatelessWidget {
       width: double.infinity,
       child: Card(
         elevation: 2,
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
