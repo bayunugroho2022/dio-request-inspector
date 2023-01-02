@@ -9,3 +9,8 @@
 ## 0.0.7
 
 * docs: update readme.md 
+
+## 0.0.8
+
+* fix: import
+* style: change color card 

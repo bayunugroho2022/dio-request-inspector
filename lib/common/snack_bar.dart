@@ -12,14 +12,22 @@ class SnackBarHelper {
       content: Row(
         children: [
           Card(
+              color: Colors.black,
               child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('$title'),
-          )),
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  '$title',
+                  style: const TextStyle(color: Colors.white),
+                ),
+              )),
           const SizedBox(
             width: 8,
           ),
-          Expanded(child: Text('$content')),
+          Expanded(
+              child: Text(
+            '$content',
+            style: const TextStyle(color: Colors.white),
+          )),
         ],
       ),
       behavior: SnackBarBehavior.floating,
