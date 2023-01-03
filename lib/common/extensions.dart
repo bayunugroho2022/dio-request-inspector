@@ -65,6 +65,13 @@ extension IntToByteExtension on int? {
     var result = (value / bytePerLevel);
     return '${doubleFormat.format(result)} $kiloByteSymbol';
   }
+
+  double byteToKiloByteDouble() {
+    final value = this ?? 0;
+    var result = (value / bytePerLevel);
+    return result;
+  }
+
 }
 
 extension ColorExtension on int {
@@ -109,3 +116,5 @@ extension ColorByMethod on String {
     }
   }
 }
+
+

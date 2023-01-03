@@ -14,6 +14,7 @@ class DetailNotifier extends ChangeNotifier {
   DetailNotifier({required this.data}) {
     init();
   }
+
   static const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
   final _dateTimeUtils = DateTimeUtil();
@@ -35,6 +36,11 @@ class DetailNotifier extends ChangeNotifier {
   List<Widget> get errors => _errors;
 
   void init() {
+    final showCopyButton =
+        (data?.response?.responseSize).byteToKiloByteDouble() < 10
+            ? true
+            : false;
+
     // overview
     _overviews = <Widget>[];
     final duration = _dateTimeUtils.milliSecondDifference(
@@ -58,18 +64,25 @@ class DetailNotifier extends ChangeNotifier {
     // request
     _requests = <Widget>[];
     _requests.add(CardItem(
-        name: "Started: ", value: '${data?.request?.createdAt?.toDateTime}'));
+        name: "Started: ",
+        value: '${data?.request?.createdAt?.toDateTime}',
+        showCopyButton: showCopyButton));
     _requests.add(CardItem(
         name: "Bytes sent: ",
-        value: '${data?.request?.requestSize.byteToKiloByte()}'));
+        value: '${data?.request?.requestSize.byteToKiloByte()}',
+        showCopyButton: showCopyButton));
     _requests.add(CardItem(
-        name: "Header:", value: data?.request?.requestHeader ?? "N/A"));
+        name: "Header:",
+        value: data?.request?.requestHeader ?? "N/A",
+        showCopyButton: showCopyButton));
     _requests.add(CardItem(
-        name: "Query Parameter:", value: data?.request?.params ?? "N/A"));
+        name: "Query Parameter:",
+        value: data?.request?.params ?? "N/A",
+        showCopyButton: showCopyButton));
     _requests.add(CardItem(
-      name: "Body:",
-      value: data?.request?.requestBody ?? "N/A",
-    ));
+        name: "Body:",
+        value: data?.request?.requestBody ?? "N/A",
+        showCopyButton: showCopyButton));
 
     // response
     _responses = <Widget>[];
@@ -78,29 +91,28 @@ class DetailNotifier extends ChangeNotifier {
         name: 'Received: ', value: '${data?.response?.createdAt?.toDateTime}'));
     _responses.add(ListRowWidget(
         name: "Status Code:", value: '${data?.response?.responseStatusCode}'));
-    if (data?.response?.responseSize != null)
+    if (data?.response?.responseSize != null) {
       _responses.add(ListRowWidget(
           name: "Bytes received:",
           value: '${data?.response?.responseSize.byteToKiloByte()}'));
+    }
     _responses.add(ResponseHeaderWidget(
       headers: data?.response?.responseHeader,
     ));
-    _responses.add(
-        CardItem(name: "Body", value: data?.response?.responseBody ?? "N/A"));
+    _responses.add(CardItem(
+        name: "Body",
+        value: data?.response?.responseBody ?? "N/A",
+        showCopyButton: showCopyButton));
     _responses.add(const ListRowWidget(space: 20));
 
     //error
     _errors = <Widget>[];
-    if (data?.error?.errorMessage != null)
-      _errors.add(CardItem(name: "Error: ", value: data?.error?.errorMessage));
-    notifyListeners();
-  }
-
-  static String parseJson(dynamic json) {
-    try {
-      return encoder.convert(json);
-    } catch (exception) {
-      return json.toString();
+    if (data?.error?.errorMessage != null) {
+      _errors.add(CardItem(
+          name: "Error: ",
+          value: data?.error?.errorMessage,
+          showCopyButton: showCopyButton));
     }
+    notifyListeners();
   }
 }
