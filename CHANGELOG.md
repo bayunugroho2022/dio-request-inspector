@@ -14,3 +14,7 @@
 
 * fix: import
 * style: change color card 
+
+## 0.0.9
+
+* feat: copy request/response to clipboard 
