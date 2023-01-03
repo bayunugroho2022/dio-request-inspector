@@ -71,7 +71,6 @@ extension IntToByteExtension on int? {
     var result = (value / bytePerLevel);
     return result;
   }
-
 }
 
 extension ColorExtension on int {
@@ -116,5 +115,3 @@ extension ColorByMethod on String {
     }
   }
 }
-
-
