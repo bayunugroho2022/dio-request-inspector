@@ -1,16 +1,26 @@
-name: Check Format
+name: Format
 
 on:
-  push:
-    branches: 'master'
+  pull_request:
+    branches:
+      - master
+    types: [closed]
 
 jobs:
-  check-format:
-    name: Check format using flutter format
+  build:
     runs-on: ubuntu-latest
-    container: cirrusci/flutter:stable
 
     steps:
-        uses: actions/checkout@v2
-      - name: Check Format
-        run: flutter format -n --set-exit-if-changed .
+      # Checkout the code
+      - uses: actions/checkout@v2
+
+      # Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: 1.22.0
+      - run: flutter pub get
+
+      # Run the formatter
+      - name: Format code
+        run: flutter format --set-exit-if-changed .
