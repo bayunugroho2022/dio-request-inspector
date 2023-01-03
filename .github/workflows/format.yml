@@ -1,0 +1,16 @@
+name: Check Format
+
+on:
+  push:
+    branches: 'master'
+
+jobs:
+  check-format:
+    name: Check format using flutter format
+    runs-on: ubuntu-latest
+    container: cirrusci/flutter:stable
+
+    steps:
+        uses: actions/checkout@v2
+      - name: Check Format
+        run: flutter format -n --set-exit-if-changed .
