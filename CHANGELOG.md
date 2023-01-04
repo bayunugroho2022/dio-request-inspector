@@ -1,10 +1,11 @@
 ## 0.1.1
 
-* docs: update readme.md
+* chore: sync readme with changelog
 
 ## 0.1.0
 
 * feat: add share overview request and response
+* docs: update readme.md
 
 ## 0.0.9
 
