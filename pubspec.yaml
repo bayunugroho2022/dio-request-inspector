@@ -1,6 +1,6 @@
 name: dio_request_inspector
 description: Request inspector package for Flutter, Allows checking HTTP connections with UI inspector.
-version: 0.0.10
+version: 0.1.0
 homepage: https://github.com/bayunugroho2022/dio-request-inspector
 
 environment:
