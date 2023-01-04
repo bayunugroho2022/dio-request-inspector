@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio_request_inspector/common/extensions.dart';
+import 'package:dio_request_inspector/common/share.dart';
 import 'package:dio_request_inspector/common/utils/date_time_util.dart';
 import 'package:dio_request_inspector/data/models/http_activity.dart';
 import 'package:dio_request_inspector/presentation/detail/widget/overview_item_widget.dart';
@@ -10,8 +11,9 @@ import 'package:flutter/material.dart';
 
 class DetailNotifier extends ChangeNotifier {
   HttpActivity? data;
+  final ShareActivity? shareActivity = ShareActivity();
 
-  DetailNotifier({required this.data}) {
+  DetailNotifier({this.data}) {
     init();
   }
 
@@ -114,5 +116,10 @@ class DetailNotifier extends ChangeNotifier {
           showCopyButton: showCopyButton));
     }
     notifyListeners();
+  }
+
+  void share() {
+    print("dsadsa ${data?.request?.requestBody}");
+    shareActivity!.data(data!);
   }
 }

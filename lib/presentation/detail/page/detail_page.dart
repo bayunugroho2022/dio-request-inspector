@@ -13,18 +13,20 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<DetailNotifier>(
-      create: (context) => DetailNotifier(
-        data: data,
-      ),
-      builder: (context, child) => Scaffold(
-        appBar: AppBar(
-            title: const Text('Detail Activity'),
-            backgroundColor:
-                data.response?.responseStatusCode?.colorByStatusCode ??
-                    Colors.red),
-        body: _buildBody(context),
-      ),
-    );
+        create: (context) => DetailNotifier(
+              data: data,
+            ),
+        builder: (context, child) {
+          Color colorByStatusCode =
+              data.response?.responseStatusCode?.colorByStatusCode ??
+                  Colors.red;
+          return Scaffold(
+            appBar: _appBar(context, colorByStatusCode),
+            floatingActionButton:
+                _floatingActionButton(context, colorByStatusCode),
+            body: _buildBody(context),
+          );
+        });
   }
 
   Widget _buildBody(BuildContext context) {
@@ -67,5 +69,21 @@ class DetailPage extends StatelessWidget {
 
   Widget _overviewWidget(List<Widget> overviews) {
     return ExpansionTile(title: const Text('Overview'), children: overviews);
+  }
+
+  Widget _floatingActionButton(BuildContext context, Color colorByStatusCode) {
+    return FloatingActionButton(
+      backgroundColor: colorByStatusCode,
+      onPressed: () {
+        context.read<DetailNotifier>().share();
+      },
+      child: const Icon(Icons.share),
+    );
+  }
+
+  PreferredSizeWidget _appBar(BuildContext context, Color colorByStatusCode) {
+    return AppBar(
+        title: const Text('Detail Activity'),
+        backgroundColor: colorByStatusCode);
   }
 }

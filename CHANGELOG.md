@@ -1,20 +1,25 @@
-## 0.0.5
+## 0.1.0
 
-* chore: flutter format . 
+* feat: add share overview request and response
 
-## 0.0.6
+## 0.0.9
 
-* feat: add snackbar to show request info 
-
-## 0.0.7
-
-* docs: update readme.md 
+* feat: copy request/response to clipboard
 
 ## 0.0.8
 
 * fix: import
-* style: change color card 
+* style: change color card
 
-## 0.0.9
+## 0.0.7
 
-* feat: copy request/response to clipboard 
+* docs: update readme.md
+
+## 0.0.6
+
+* feat: add snackbar to show request info
+
+## 0.0.5
+
+* chore: flutter format . 
+
