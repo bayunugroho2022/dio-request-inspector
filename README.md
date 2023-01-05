@@ -5,7 +5,7 @@
 <h3 align="center">Dio Requests Inspector Package</h3>
 
 <p align="center">
-Request inspector package for Flutter, Allows checking HTTP connections with UI inspector.
+Debug and Sharing your HTTP Request/Response with UI Inspector.
   <br>
   <br>
   <br>
