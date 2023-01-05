@@ -37,16 +37,6 @@ extension JsonChecker on String {
   }
 }
 
-extension JsonStringExtension on String {
-  Map<String, dynamic> get toJson {
-    try {
-      return json.decode(this) as Map<String, dynamic>;
-    } catch (e) {
-      return {};
-    }
-  }
-}
-
 extension DateTimeExtension on int {
   String get toDateTime {
     var date = DateTime.fromMillisecondsSinceEpoch(this);
