@@ -1,3 +1,8 @@
+## 0.2.0
+
+* chore: update DIO version
+* chore: remove unused code
+
 ## 0.1.2
 
 * docs: update README.md

@@ -119,7 +119,6 @@ class DetailNotifier extends ChangeNotifier {
   }
 
   void share() {
-    print("dsadsa ${data?.request?.requestBody}");
     shareActivity!.data(data!);
   }
 }
