@@ -1,5 +1,9 @@
 ## 0.2.0
 
+* chore: downngrade intl to intl: ^0.17.0
+
+## 0.2.0
+
 * chore: update DIO version
 * chore: remove unused code
 
