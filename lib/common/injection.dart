@@ -12,11 +12,13 @@ final locator = GetIt.instance;
 
 void init() {
   //repositories
-  locator.registerLazySingleton<DioRequestRepository>(
-    () => DioRequestRepositoryImpl(
-      localDataSource: LocalDataSourceImpl(),
-    ),
-  );
+  if (!locator.isRegistered<DioRequestRepository>()) {
+    locator.registerLazySingleton<DioRequestRepository>(
+      () => DioRequestRepositoryImpl(
+        localDataSource: LocalDataSourceImpl(),
+      ),
+    );
+  }
 
   //usecases
   locator.registerLazySingleton<SaveResponseUseCase>(
