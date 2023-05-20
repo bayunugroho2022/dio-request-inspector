@@ -30,7 +30,7 @@ class SnackBarHelper {
           )),
         ],
       ),
-      behavior: SnackBarBehavior.floating,
+      behavior: SnackBarBehavior.fixed,
       backgroundColor: Colors.purple.withOpacity(0.6),
       duration: duration!,
       action: SnackBarAction(

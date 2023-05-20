@@ -11,6 +11,7 @@ class Interceptor extends InterceptorsWrapper {
   SaveRequestUseCase? saveRequestUseCase;
   SaveErrorUseCase? saveErrorUseCase;
   final bool kIsDebug;
+  final bool showFloating;
   final Duration? duration;
   GlobalKey<NavigatorState>? navigatorKey;
   void Function()? navigateToDetail;
@@ -20,6 +21,7 @@ class Interceptor extends InterceptorsWrapper {
     this.saveRequestUseCase,
     this.saveErrorUseCase,
     this.kIsDebug = false,
+    this.showFloating = true,
     this.navigatorKey,
     this.duration,
     this.navigateToDetail,
@@ -30,8 +32,7 @@ class Interceptor extends InterceptorsWrapper {
   }
 
   @override
-  void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (kIsDebug) {
       await saveRequestUseCase!.execute(options);
       _showSnackBar(options);
@@ -57,6 +58,10 @@ class Interceptor extends InterceptorsWrapper {
   }
 
   void _showSnackBar(RequestOptions options) {
+    if (!showFloating) {
+      return;
+    }
+
     SnackBarHelper.showSnackBar(
         context: navigatorKey!.currentState!.context,
         duration: duration,

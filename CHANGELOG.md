@@ -1,4 +1,12 @@
-## 0.2.0
+## 0.3.2
+
+* feat: add optional parameter to `show Snackbar`
+
+## 0.2.2
+
+* fix: registered repository injection
+
+## 0.2.1
 
 * chore: downngrade intl to intl: ^0.17.0
 

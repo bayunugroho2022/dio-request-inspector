@@ -11,11 +11,14 @@ class DioRequestInspector {
   GlobalKey<NavigatorState> get getNavigatorKey => navigatorKey!;
 
   final bool isDebugMode;
+  final bool showFloating;
   final Duration? duration;
 
-  DioRequestInspector(
-      {required this.isDebugMode,
-      this.duration = const Duration(milliseconds: 500)}) {
+  DioRequestInspector({
+    required this.isDebugMode,
+    this.duration = const Duration(milliseconds: 500),
+    this.showFloating = true,
+  }) {
     navigatorKey = GlobalKey<NavigatorState>();
     di.init();
   }
@@ -38,6 +41,7 @@ class DioRequestInspector {
         kIsDebug: isDebugMode,
         navigatorKey: navigatorKey,
         duration: duration,
+        showFloating: showFloating,
         navigateToDetail: navigateToDetail);
   }
 }
