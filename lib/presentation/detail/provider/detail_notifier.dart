@@ -38,10 +38,7 @@ class DetailNotifier extends ChangeNotifier {
   List<Widget> get errors => _errors;
 
   void init() {
-    final showCopyButton =
-        (data?.response?.responseSize).byteToKiloByteDouble() < 10
-            ? true
-            : false;
+    const showCopyButton = true;
 
     // overview
     _overviews = <Widget>[];

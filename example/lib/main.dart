@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 DioRequestInspector dioRequestInspector =
-    DioRequestInspector(isDebugMode: true);
+    DioRequestInspector(isDebugMode: true, showFloating: false);
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
