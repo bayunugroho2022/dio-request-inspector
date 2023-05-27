@@ -3,12 +3,12 @@ import 'package:dio_request_inspector/data/models/http_activity.dart';
 import 'package:dio_request_inspector/domain/repositories/dio_request_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class GetLogUseCase {
+class ClearLogUseCase {
   final DioRequestRepository? repository;
 
-  GetLogUseCase(this.repository);
+  ClearLogUseCase(this.repository);
 
   Future<Either<Failure, Stream<List<HttpActivity>>>> execute() {
-    return repository!.getListResponse();
+    return repository!.clearAllLog();
   }
 }

@@ -12,56 +12,57 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<DashboardNotifier>(
       create: (context) => DashboardNotifier(),
-      builder: (context, child) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Http Activities'),
-          backgroundColor: Colors.purple.withOpacity(0.6),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Provider.of<DashboardNotifier>(context, listen: false)
-                .fetchAllResponses();
-          },
-          backgroundColor: Colors.purple.withOpacity(0.6),
-          child: const Icon(Icons.refresh),
-        ),
-        body: buildBody(context),
+      child: Consumer<DashboardNotifier>(
+        builder: (context, provider, child) {
+          return Scaffold(
+            appBar: AppBar(
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    provider.clearAllResponses();
+                  },
+                  icon: const Icon(Icons.delete),
+                ),
+              ],
+              title: const Text('Http Activities'),
+              backgroundColor: Colors.purple.withOpacity(0.6),
+            ),
+            body: buildBody(context, provider),
+          );
+        },
       ),
     );
   }
 
-  Widget buildBody(BuildContext context) {
-    return Consumer<DashboardNotifier>(
-      builder: (context, provider, child) {
-        if (provider.getAllResponsesState == RequestState.loading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+  Widget buildBody(BuildContext context, DashboardNotifier provider) {
+    if (provider.getAllResponsesState == RequestState.loading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (provider.getAllResponses.isEmpty) {
+      return const Center(
+        child: Text('No Http Activities'),
+      );
+    } else {
+      return ListView.builder(
+        itemCount: provider.getAllResponses.length,
+        itemBuilder: (context, index) {
+          var data = provider.getAllResponses[index];
+          return InkWell(
+            onTap: () {
+              Navigator.push<void>(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailPage(
+                    data: data,
+                  ),
+                ),
+              );
+            },
+            child: ItemResponseWidget(data: data),
           );
-        }
-        if (provider.getAllResponses.isEmpty) {
-          return const Center(
-            child: Text('No Http Activities'),
-          );
-        }
-        return ListView.builder(
-          itemCount: provider.getAllResponses.length,
-          itemBuilder: (context, index) {
-            var data = provider.getAllResponses[index];
-            return InkWell(
-                onTap: () {
-                  Navigator.push<void>(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailPage(
-                        data: data,
-                      ),
-                    ),
-                  );
-                },
-                child: ItemResponseWidget(data: data));
-          },
-        );
-      },
-    );
+        },
+      );
+    }
   }
 }

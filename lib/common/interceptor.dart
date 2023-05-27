@@ -34,7 +34,9 @@ class Interceptor extends InterceptorsWrapper {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (kIsDebug) {
-      await saveRequestUseCase!.execute(options);
+      if (saveRequestUseCase != null) {
+        await saveRequestUseCase!.execute(options);
+      }
       _showSnackBar(options);
     }
     super.onRequest(options, handler);
@@ -43,7 +45,9 @@ class Interceptor extends InterceptorsWrapper {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
     if (kIsDebug) {
-      await saveResponseUseCase!.execute(response);
+      if (saveResponseUseCase != null) {
+        await saveResponseUseCase!.execute(response);
+      }
     }
     super.onResponse(response, handler);
   }
@@ -51,7 +55,9 @@ class Interceptor extends InterceptorsWrapper {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     if (kIsDebug) {
-      await saveErrorUseCase!.execute(err);
+      if (saveErrorUseCase != null) {
+        await saveErrorUseCase!.execute(err);
+      }
     }
     handler.next(err);
     super.onError(err, handler);
@@ -63,12 +69,11 @@ class Interceptor extends InterceptorsWrapper {
     }
 
     SnackBarHelper.showSnackBar(
-        context: navigatorKey!.currentState!.context,
-        duration: duration,
-        title: options.method,
-        content: options.path,
-        action: () {
-          navigateToDetail!();
-        });
+      context: navigatorKey?.currentState?.context,
+      duration: duration,
+      title: options.method,
+      content: options.path,
+      action: navigateToDetail,
+    );
   }
 }

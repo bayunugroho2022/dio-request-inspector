@@ -11,8 +11,8 @@ class DioRequestRepositoryImpl implements DioRequestRepository {
   DioRequestRepositoryImpl({this.localDataSource});
 
   @override
-  Future<Either<Failure, List<HttpActivity>>> getListResponse() async {
-    final response = localDataSource!.getAllResponse();
+  Future<Either<Failure, Stream<List<HttpActivity>>>> getListResponse() async {
+    final response = localDataSource!.getAllResponse;
     return Right(response);
   }
 
@@ -34,4 +34,11 @@ class DioRequestRepositoryImpl implements DioRequestRepository {
     final result = await localDataSource?.saveError(error);
     return Right(result!);
   }
+  
+  @override
+  Future<Either<Failure, Stream<List<HttpActivity>>>> clearAllLog() async {
+    final response = localDataSource!.clearAllLog();
+    return Right(response);
+  }
+
 }

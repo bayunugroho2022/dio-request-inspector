@@ -1,6 +1,7 @@
 import 'package:dio_request_inspector/data/datasources/local_data_source.dart';
 import 'package:dio_request_inspector/data/repositories/dio_request_repository_impl.dart';
 import 'package:dio_request_inspector/domain/repositories/dio_request_repository.dart';
+import 'package:dio_request_inspector/domain/usecases/clear_log_usecase.dart';
 import 'package:dio_request_inspector/domain/usecases/get_log_usecase.dart';
 import 'package:dio_request_inspector/domain/usecases/save_error_usecase.dart';
 import 'package:dio_request_inspector/domain/usecases/save_request_usecase.dart';
@@ -27,9 +28,14 @@ void init() {
       () => SaveRequestUseCase(locator()));
   locator.registerLazySingleton<SaveErrorUseCase>(
       () => SaveErrorUseCase(locator()));
+  locator.registerLazySingleton<ClearLogUseCase>(
+      () => ClearLogUseCase(locator()));
   locator.registerLazySingleton<GetLogUseCase>(() => GetLogUseCase(
       DioRequestRepositoryImpl(localDataSource: LocalDataSourceImpl())));
 
   // provider
-  locator.registerLazySingleton<DashboardNotifier>(() => locator());
+  locator.registerLazySingleton<DashboardNotifier>(() => DashboardNotifier(
+    getLogUseCase: locator(),
+    clearLogUseCase: locator(),
+  ));
 }

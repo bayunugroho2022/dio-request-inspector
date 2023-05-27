@@ -25,7 +25,7 @@ class ItemResponseWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     color:
                         data.response?.responseStatusCode?.colorByStatusCode ??
-                            Colors.red,
+                            Colors.grey,
                     borderRadius: BorderRadius.circular(4),
                   ),
                   padding: const EdgeInsets.all(6),
@@ -42,7 +42,7 @@ class ItemResponseWidget extends StatelessWidget {
                   style: TextStyle(
                       color: data.response?.responseStatusCode
                               ?.colorByStatusCode ??
-                          Colors.red),
+                          Colors.grey),
                 ),
               )),
               textStatusCode(
@@ -79,8 +79,8 @@ class ItemResponseWidget extends StatelessWidget {
       );
     } else {
       return const Text(
-        'Err',
-        style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+        'Loading',
+        style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
       );
     }
   }

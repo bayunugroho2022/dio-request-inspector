@@ -6,26 +6,31 @@ import 'package:dio_request_inspector/data/models/http_error.dart';
 import 'package:dio_request_inspector/data/models/http_request.dart';
 import 'package:dio_request_inspector/data/models/http_response.dart';
 import 'package:dio/dio.dart';
+import 'package:rxdart/rxdart.dart';
 
 List<HttpResponse> _responses = [];
 List<HttpRequest> _requests = [];
 List<HttpError> _errors = [];
 List<HttpActivity> _activities = <HttpActivity>[];
 
+final _dataSubject = BehaviorSubject<List<HttpActivity>>();
+
 abstract class LocalDataSource {
   Future<String> saveResponse(Response response);
 
   Future<String> saveRequest(RequestOptions options);
 
-  List<HttpActivity> getAllResponse();
+  Stream<List<HttpActivity>> get getAllResponse => _dataSubject.stream;
 
   Future<String> saveError(DioError error);
+
+  Stream<List<HttpActivity>> clearAllLog();
 }
 
 class LocalDataSourceImpl implements LocalDataSource {
   final _jsonUtil = JsonUtil();
   final _byteUtil = ByteUtil();
-
+  
   @override
   Future<String> saveResponse(Response response) {
     final httpResponse = HttpResponse(
@@ -43,12 +48,8 @@ class LocalDataSourceImpl implements LocalDataSource {
             data.request?.requestHashCode == response.requestOptions.hashCode,
         orElse: () => HttpActivity());
     httpActivity.response = httpResponse;
+    _dataSubject.add(_activities);
     return Future.value('success');
-  }
-
-  @override
-  List<HttpActivity> getAllResponse() {
-    return _activities;
   }
 
   @override
@@ -69,6 +70,7 @@ class LocalDataSourceImpl implements LocalDataSource {
     );
     _requests.addAll([httpRequest]);
     _activities.add(HttpActivity(request: httpRequest));
+    _dataSubject.add(_activities);
     return Future.value('success');
   }
 
@@ -94,6 +96,21 @@ class LocalDataSourceImpl implements LocalDataSource {
       responseBody: _jsonUtil.encodeRawJson(error.response?.data),
       responseHeader: error.response?.headers.map,
     );
+    _dataSubject.add(_activities);
     return Future.value('success error');
   }
+  
+  @override
+  Stream<List<HttpActivity>> get getAllResponse => _dataSubject.stream;
+  
+  @override
+  Stream<List<HttpActivity>> clearAllLog() {
+    _responses.clear();
+    _requests.clear();
+    _errors.clear();
+    _activities.clear();
+    _dataSubject.value = _activities;
+    return _dataSubject.stream;
+  }
+  
 }
