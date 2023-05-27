@@ -1,3 +1,8 @@
+## 1.1.0
+
+* feat: make realtime a response
+* fix: copy paste request and response
+
 ## 0.3.2
 
 * feat: add optional parameter to `show Snackbar`
