@@ -1,5 +1,9 @@
 ## 2.0.0
 
+* docs: update readme.md
+
+## 2.0.0
+
 * fix: adjustment loading
 * fix: adjustment error
 * feat: Added FormData support for Dio requests
