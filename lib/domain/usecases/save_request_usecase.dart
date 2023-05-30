@@ -9,6 +9,6 @@ class SaveRequestUseCase {
   SaveRequestUseCase(this.repository);
 
   Future<Either<Failure, String>> execute(RequestOptions options) {
-    return repository!.saveRequestUseCase(options);
+    return repository!.saveRequest(options);
   }
 }

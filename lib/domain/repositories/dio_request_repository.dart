@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 abstract class DioRequestRepository {
   Future<Either<Failure, Stream<List<HttpActivity>>>> getListResponse();
   Future<Either<Failure, String>> saveResponse(Response response);
-  Future<Either<Failure, String>> saveRequestUseCase(RequestOptions options);
-  Future<Either<Failure, String>> saveErrorUseCase(DioError error);
+  Future<Either<Failure, String>> saveRequest(RequestOptions options);
+  Future<Either<Failure, String>> saveError(DioError error);
   Future<Either<Failure, Stream<List<HttpActivity>>>> clearAllLog();
 }

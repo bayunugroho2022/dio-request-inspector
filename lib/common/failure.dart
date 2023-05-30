@@ -20,3 +20,7 @@ class ConnectionFailure extends Failure {
 class DatabaseFailure extends Failure {
   const DatabaseFailure(String message) : super(message);
 }
+
+class GeneralFailure extends Failure {
+  const GeneralFailure(String message) : super(message);
+}

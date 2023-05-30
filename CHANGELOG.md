@@ -1,3 +1,13 @@
+## 2.0.0
+
+* fix: adjustment loading
+* fix: adjustment error
+* feat: Added FormData support for Dio requests
+
+## 1.2.0
+
+* fix: save response and error
+
 ## 1.1.0
 
 * feat: make realtime a response

@@ -1,5 +1,6 @@
 import 'package:dio_request_inspector/common/extensions.dart';
 import 'package:dio_request_inspector/data/models/http_activity.dart';
+import 'package:dio_request_inspector/presentation/dashboard/widget/dot_animation.dart';
 import 'package:flutter/material.dart';
 
 class ItemResponseWidget extends StatelessWidget {
@@ -78,9 +79,10 @@ class ItemResponseWidget extends StatelessWidget {
         style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
       );
     } else {
-      return const Text(
-        'Loading',
-        style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
+      return const TypingIndicatorWidget(
+        dotColor: Colors.grey,
+        dotSize: 8.0,
+        animationDuration: Duration(milliseconds: 1000),
       );
     }
   }

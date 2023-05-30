@@ -2,6 +2,7 @@ import 'package:dio_request_inspector/dio_request_inspector.dart';
 import 'package:dio_request_inspector/presentation/main/page/main_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 DioRequestInspector dioRequestInspector =
     DioRequestInspector(isDebugMode: true, showFloating: false);
@@ -37,6 +38,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late Dio _dio;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -92,6 +94,16 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 16,
             ),
             ElevatedButton(
+              onPressed: _postWithFormDataRequest,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.purple.withOpacity(0.6),
+              ),
+              child: const Text("POST with Form Data Request"),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            ElevatedButton(
               onPressed: _errorRequest,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple.withOpacity(0.6),
@@ -120,6 +132,28 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _postRequest() {
     _dio.post("https://httpbin.org/post", data: {"name": "dio", "age": 25});
+  }
+  
+  void _postWithFormDataRequest() async {
+     var imageFile = await _picker.pickImage(source: ImageSource.camera);
+
+     if (imageFile != null) {
+    FormData formData = FormData.fromMap({
+      "name": "atung"
+    });
+      
+      formData.files.add(MapEntry(
+        "tes",
+        await MultipartFile.fromFile(
+          imageFile.path,
+          filename: imageFile.path.split('/').last,
+        )));
+    _dio.post("https://httpbin.org/post", data: formData, options: Options(
+      headers: {
+        "Authorization" : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VudF9pZCI6ODQsImJyYW5jaF9pZCI6bnVsbCwiY3JvX2lkIjpudWxsLCJjcm9fbmFtZSI6bnVsbCwiZGV2aWNlX2lkIjoiUktRMS4yMDEyMTcuMDAyIiwiZW1haWwiOiJjaWFjaWFnb3JleUBnbWFpbC5jb20iLCJleHAiOjE2ODUzNzI5MjcsImdyb3VwX25hbWUiOm51bGwsImlkIjoiM2I5NWYxNjktZGVlYy00Y2RkLThhMTQtNDE4MmNhZmZjMWRlIiwiaXNfbWVyY2hhbnRfb25saW5lIjpmYWxzZSwiaXNfbmV3X3dnIjpmYWxzZSwiaXNfc2hvd19tZW51X2RlYWxlcl9zdWJzaWR5IjpmYWxzZSwibWVyY2hhbnRfYnJhbmNoX2lkIjoiIiwibmFtZSI6IlNlbGx5IEFnZW50IEJla2FzaSIsIm5payI6IjczODQ2NTMyOTE4MjczNjIiLCJyZWdpb25faWQiOm51bGwsInJvbGVfaWQiOiJmMDgwYWIxYi0xYzY0LTRhZWQtYTZjNi03MjI5NWNiOGNlNzYiLCJyb2xlX25hbWUiOiJhZ2VudCIsInN1cHBsaWVyX2lkIjoiIiwidXNlcl90eXBlIjoiS01PQiJ9.4MnU4Ul1Nnni87FvnR0bBQOonzzurdxxt3t8LYZ5tf4"
+      }
+    ));
+     }
   }
 
   void _errorRequest() {
