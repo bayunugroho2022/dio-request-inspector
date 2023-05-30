@@ -1,6 +1,15 @@
+
 <p align="center">
     <img src="https://user-images.githubusercontent.com/91040581/210127198-791f085b-61b8-4a77-8168-986c9a90d806.png" width="200" height="185">
 </p>
+
+<div align="center">
+
+[![pub package](https://img.shields.io/pub/v/dio_request_inspector.svg)](https://pub.dartlang.org/packages/dio_request_inspector)
+[![License: BSD 3-Clause](https://img.shields.io/github/license/bayunugroho2022/dio-request-inspector.svg?style=flat)](https://github.com/bayunugroho2022/dio-request-inspector/blob/master/LICENSE)
+[![pub package](https://img.shields.io/badge/platform-flutter-blue.svg)](https://github.com/bayunugroho2022/dio-request-inspector)
+
+</div>
 
 <h3 align="center">Dio Requests Inspector Package</h3>
 
@@ -8,12 +17,8 @@
 Debug and Sharing your HTTP Request/Response with UI Inspector.
   <br>
   <br>
-  <br>
-  <br>
 </p>
 
-
-## Some screenshots
 <div align="center">
 <img src="https://user-images.githubusercontent.com/91040581/210163954-9687c5e7-6790-47f5-a773-03a63ebabebf.jpeg" width="250">
 <img src="https://user-images.githubusercontent.com/91040581/210498527-c94d872a-041e-4c5b-a161-fa29e1584769.jpeg" width="250">
