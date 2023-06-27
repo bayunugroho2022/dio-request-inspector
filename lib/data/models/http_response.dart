@@ -9,6 +9,7 @@ class HttpResponse {
   final int? duration;
   final String? errorLog;
   final int? requestHashCode;
+  final String? contentType;
 
   HttpResponse({
     this.id,
@@ -21,5 +22,6 @@ class HttpResponse {
     this.duration = 0,
     this.responseSize,
     this.requestHashCode,
+    this.contentType,
   });
 }

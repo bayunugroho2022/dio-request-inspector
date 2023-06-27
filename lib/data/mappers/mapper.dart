@@ -16,6 +16,7 @@ extension HttpResponseMapper on Response {
     return HttpResponse(
       createdAt: DateTime.now().millisecondsSinceEpoch,
       responseHeader: headers.map,
+      contentType: headers.map['content-type']?.first ?? 'Unknown',
       responseBody: _jsonUtil.encodeRawJson(data),
       responseStatusCode: statusCode,
       responseStatusMessage: statusMessage,
@@ -28,11 +29,12 @@ extension HttpResponseMapper on Response {
 extension HttpActivityMapper on HttpError {
   HttpActivity toHttpActivity(DioError e) {
     return HttpActivity(
-        response: HttpResponse(
+      response: HttpResponse(
       responseStatusCode: e.response?.statusCode,
       responseStatusMessage: e.response?.statusMessage,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       responseBody: e.response?.data,
+      contentType: e.response?.headers.map['content-type']?.first ?? 'Unknown',
       responseHeader: e.response?.headers.map,
       responseSize: _byteUtil.stringToBytes(e.response?.data.toString() ?? ""),
       requestHashCode: e.requestOptions.hashCode,

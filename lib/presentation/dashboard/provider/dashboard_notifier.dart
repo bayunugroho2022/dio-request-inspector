@@ -50,11 +50,14 @@ class DashboardNotifier extends ChangeNotifier {
                 call2.request?.createdAt?.compareTo(call1.request!.createdAt!) ??
                 -1,
           );
-          _getAllResponsesState = RequestState.loaded;
+        
           notifyListeners();
         });
-      },
+      },      
     );
+    
+      _getAllResponsesState = RequestState.loaded;
+      notifyListeners();
   }
 
   @override
@@ -78,6 +81,34 @@ class DashboardNotifier extends ChangeNotifier {
         notifyListeners();
       },
     );
+  }
+
+  void sortAllResponses(SortActivity value) {
+    switch (value) {
+      case SortActivity.byTime:
+        _getAllResponses.sort(
+          (call1, call2) =>
+              call2.request?.createdAt?.compareTo(call1.request!.createdAt!) ??
+              -1,
+        );
+        break;
+      case SortActivity.byMethod:
+        _getAllResponses.sort(
+          (call1, call2) =>
+              call1.request?.method?.compareTo(call2.request!.method!) ?? -1,
+        );
+        break;
+      case SortActivity.byStatus:
+        _getAllResponses.sort(
+          (call1, call2) =>
+              call1.response?.responseStatusCode
+                      ?.compareTo(call2.response!.responseStatusCode!) ??
+                  -1,
+        );
+        break;
+    }
+
+    notifyListeners();
   }
   
 }

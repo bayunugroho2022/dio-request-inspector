@@ -15,14 +15,33 @@ class DashboardPage extends StatelessWidget {
       child: Consumer<DashboardNotifier>(
         builder: (context, provider, child) {
           return Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                provider.clearAllResponses();
+              },
+              backgroundColor: Colors.purple.withOpacity(0.6),
+              child: const Icon(Icons.delete),
+            ),
             appBar: AppBar(
               actions: [
-                IconButton(
-                  onPressed: () {
-                    provider.clearAllResponses();
-                  },
-                  icon: const Icon(Icons.delete),
-                ),
+                PopupMenuButton(itemBuilder: (context) {
+                  return [
+                    const PopupMenuItem(
+                      value: SortActivity.byTime,
+                      child: Text('Time'),
+                    ),
+                    const PopupMenuItem(
+                      value: SortActivity.byMethod,
+                      child: Text('Method'),
+                    ),
+                    const PopupMenuItem(
+                      value: SortActivity.byStatus,
+                      child: Text('Status'),
+                    ),
+                  ];
+                }, onSelected: (value) {
+                  provider.sortAllResponses(value);
+                })
               ],
               title: const Text('Http Activities'),
               backgroundColor: Colors.purple.withOpacity(0.6),
