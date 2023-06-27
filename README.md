@@ -14,24 +14,54 @@
 <h3 align="center">Dio Requests Inspector Package</h3>
 
 <p align="center">
-Debug and Sharing your HTTP Request/Response with UI Inspector.
+"Dio Request Inspector" is a handy open-source tool for monitoring and analyzing HTTP requests in Flutter using the Dio package. It provides real-time monitoring, detailed request information, and filtering capabilities, making it easy to track and troubleshoot server interactions in your Flutter projects.
   <br>
   <br>
 </p>
 
 <div align="center">
+
 <img src="https://user-images.githubusercontent.com/91040581/210163954-9687c5e7-6790-47f5-a773-03a63ebabebf.jpeg" width="250">
-<img src="https://user-images.githubusercontent.com/91040581/210498527-c94d872a-041e-4c5b-a161-fa29e1584769.jpeg" width="250">
-<img src="https://user-images.githubusercontent.com/91040581/210498536-647d6895-1f83-4f06-a331-def8220195a3.jpeg" width="250">
-<img src="https://user-images.githubusercontent.com/91040581/210498540-5d83652a-10ab-4a17-a389-ab07da8dd3ab.jpeg" width="250">    
-<img src="https://user-images.githubusercontent.com/91040581/210127721-aaaa3e63-da48-4cd7-8ce8-019f2dffb902.jpeg" width="250">
+<img src="https://github.com/bayunugroho2022/dio-request-inspector/assets/91040581/abb13152-f56a-486d-9fd2-15ebec5fe24e" width="250">
+<img src="https://github.com/bayunugroho2022/dio-request-inspector/assets/91040581/14f40aef-9bac-4173-9c13-4207b976841e" width="250">
+<img src="https://github.com/bayunugroho2022/dio-request-inspector/assets/91040581/17ca16fd-588d-4147-8ff0-e437e98769f2" width="250">
+<img src="https://github.com/bayunugroho2022/dio-request-inspector/assets/91040581/b4d62644-c356-4119-bc58-06dc2a340458" width="250">
+
 </div>
 
 <br clear="left"/>
 
 <br>
 
-## How to use
+## Features
+✔️ Real-time monitoring of HTTP requests in your Flutter application. <br><br>
+✔️ Detailed information about each request, including URL, request method, headers, and payload data.<br><br>
+✔️ Filter and search functionality to quickly find relevant requests based on criteria such as URL, method, or status code.<br><br>
+✔️ Easy integration with Flutter projects using the Dio package.<br><br>
+✔️ Intuitive and user-friendly UI for seamless request exploration and analysis.<br><br>
+
+## Get started
+
+### Add dependency
+
+You can use the command to add dio as a dependency with the latest stable version:
+
+```console
+$ dart pub add dio_request_inspector
+```
+
+Or you can manually add dio into the dependencies section in your pubspec.yaml:
+
+```yaml
+dependencies:
+  dio_request_inspector: ^replace-with-latest-version
+```
+
+
+The latest version is: [![pub package](https://img.shields.io/pub/v/dio_request_inspector.svg)](https://pub.dartlang.org/packages/dio_request_inspector)
+
+### Super simple to use
+
 1. Create DioRequestInspector instance
 ```dart 
 DioRequestInspector dioRequestInspector = DioRequestInspector(isDebugMode: true);
@@ -49,148 +79,6 @@ DioRequestInspectorMain(inspector: dioRequestInspector, child: MyApp())
 navigatorKey: dioRequestInspector.navigatorKey,
 ```
 
-## Example
-```dart
-import 'package:dio_request_inspector/dio_request_inspector.dart';
-import 'package:dio_request_inspector/presentation/main/page/main_page.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+## Contributing
 
-DioRequestInspector dioRequestInspector =
-DioRequestInspector(isDebugMode: true);
-
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(DioRequestInspectorMain(
-      inspector: dioRequestInspector, child: const MyApp()));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Dio Request Inspector',
-      navigatorKey: dioRequestInspector.getNavigatorKey,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  late Dio _dio;
-
-  @override
-  void initState() {
-    _dio = Dio();
-    _dio.interceptors.add(dioRequestInspector.getDioRequestInterceptor());
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dio Request Inspector Example'),
-        backgroundColor: Colors.purple.withOpacity(0.6),
-      ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        width: double.infinity,
-        height: double.infinity,
-        child: ListView(
-          children: [
-            const SizedBox(
-              height: 16,
-            ),
-            ElevatedButton(
-              onPressed: _getRequest,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple.withOpacity(0.6),
-              ),
-              child: const Text("GET Request"),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            ElevatedButton(
-              onPressed: _getImageRequest,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple.withOpacity(0.6),
-              ),
-              child: const Text("GET Image Request"),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            ElevatedButton(
-              onPressed: _postRequest,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple.withOpacity(0.6),
-              ),
-              child: const Text("POST Request"),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            ElevatedButton(
-              onPressed: _errorRequest,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple.withOpacity(0.6),
-              ),
-              child: const Text("Error Request"),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            ElevatedButton(
-              onPressed: _seeInspector,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple.withOpacity(0.6),
-              ),
-              child: const Text("See Inspector"),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _getRequest() {
-    _dio.get<void>("https://63aea217ceaabafcf17f16b1.mockapi.io/get");
-  }
-
-  void _postRequest() {
-    _dio.post("https://httpbin.org/post", data: {"name": "dio", "age": 25});
-  }
-
-  void _errorRequest() {
-    _dio.get<void>("https://httpbin.org/status/404");
-  }
-
-  void _seeInspector() {
-    dioRequestInspector.navigateToDetail();
-  }
-
-  void _getImageRequest() {
-    _dio.get<void>("https://httpbin.org/image/png");
-  }
-}
-
-```
-
-
-## Note
-- set ```isDebugMode``` to false if your app is in production
-- tap ```Long press``` on your screen to show DioRequestInspector UI
+If you would like to contribute to this project, please feel free to submit a pull request.
