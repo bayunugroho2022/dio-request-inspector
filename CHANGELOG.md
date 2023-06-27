@@ -1,5 +1,9 @@
 ## 2.1.1
 
+* chore: update readme.md
+
+## 2.1.1
+
 * feat: add filter by method, time, and status
 * fix: loading when activity is empty 
 * chore: update dependency (share_plus)
