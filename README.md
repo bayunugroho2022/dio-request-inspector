@@ -44,13 +44,13 @@
 
 ### Add dependency
 
-You can use the command to add dio as a dependency with the latest stable version:
+You can use the command to add dio_request_inspector as a dependency with the latest stable version:
 
 ```console
 $ dart pub add dio_request_inspector
 ```
 
-Or you can manually add dio into the dependencies section in your pubspec.yaml:
+Or you can manually add dio_request_inspector into the dependencies section in your pubspec.yaml:
 
 ```yaml
 dependencies:
