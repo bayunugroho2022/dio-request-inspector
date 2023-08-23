@@ -11,7 +11,8 @@ class DashboardNotifier extends ChangeNotifier {
   GetLogUseCase? getLogUseCase;
   ClearLogUseCase? clearLogUseCase;
   StreamSubscription<List<HttpActivity>>? _subscription;
-
+  FocusNode focusNode = FocusNode();  
+  
   DashboardNotifier({this.getLogUseCase, this.clearLogUseCase}) {
     getLogUseCase = di.GetIt.I<GetLogUseCase>();
     clearLogUseCase = di.GetIt.I<ClearLogUseCase>();
@@ -22,13 +23,21 @@ class DashboardNotifier extends ChangeNotifier {
 
   List<HttpActivity> get getAllResponses => _getAllResponses;
 
+  List<HttpActivity> _activityFromSearch = <HttpActivity>[];
+
+  List<HttpActivity> get activityFromSearch => _activityFromSearch;
+
   RequestState _getAllResponsesState = RequestState.empty;
 
   RequestState get getAllResponsesState => _getAllResponsesState;
 
   String _message = '';
 
+  TextEditingController searchController = TextEditingController();
+
   String get message => _message;
+
+  bool isSearch = false;
 
   Future<void> fetchAllResponses() async {
     _getAllResponsesState = RequestState.loading;
@@ -107,6 +116,32 @@ class DashboardNotifier extends ChangeNotifier {
         );
         break;
     }
+
+    notifyListeners();
+  }
+
+  void toggleSearch() {
+    isSearch = !isSearch;
+    notifyListeners();
+
+    if (isSearch) {
+      focusNode.requestFocus();
+      searchController.text = '';
+      search(searchController.text);
+      return;
+    } 
+  }
+
+  void search(String value) {
+    if (value.isEmpty) {
+      _activityFromSearch = _getAllResponses;
+      notifyListeners();
+      return;
+    }
+    _activityFromSearch = _getAllResponses
+        .where((element) =>
+            element.request?.path?.contains(value) ?? false)
+        .toList();
 
     notifyListeners();
   }
