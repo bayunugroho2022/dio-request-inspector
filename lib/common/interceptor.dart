@@ -32,7 +32,8 @@ class Interceptor extends InterceptorsWrapper {
   }
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     if (kIsDebug) {
       if (saveRequestUseCase != null) {
         await saveRequestUseCase!.execute(options);

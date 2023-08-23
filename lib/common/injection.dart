@@ -28,14 +28,14 @@ void init() {
       () => SaveRequestUseCase(locator()));
   locator.registerLazySingleton<SaveErrorUseCase>(
       () => SaveErrorUseCase(locator()));
-  locator.registerLazySingleton<ClearLogUseCase>(
-      () => ClearLogUseCase(locator()));
+  locator
+      .registerLazySingleton<ClearLogUseCase>(() => ClearLogUseCase(locator()));
   locator.registerLazySingleton<GetLogUseCase>(() => GetLogUseCase(
       DioRequestRepositoryImpl(localDataSource: LocalDataSourceImpl())));
 
   // provider
   locator.registerLazySingleton<DashboardNotifier>(() => DashboardNotifier(
-    getLogUseCase: locator(),
-    clearLogUseCase: locator(),
-  ));
+        getLogUseCase: locator(),
+        clearLogUseCase: locator(),
+      ));
 }
