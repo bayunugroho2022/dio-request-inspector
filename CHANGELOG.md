@@ -1,3 +1,8 @@
+## [2.2.0]
+
+* feat: add search activity
+
+
 ## 2.1.3
 
 * chore: update readme.md
