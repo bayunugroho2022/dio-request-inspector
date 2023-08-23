@@ -7,7 +7,8 @@ class TypingIndicatorWidget extends StatefulWidget {
   final double dotSize;
   final Duration animationDuration;
 
-  const TypingIndicatorWidget({super.key, 
+  const TypingIndicatorWidget({
+    super.key,
     this.dotColor = Colors.grey,
     this.dotSize = 10.0,
     this.animationDuration = const Duration(milliseconds: 500),
@@ -17,7 +18,8 @@ class TypingIndicatorWidget extends StatefulWidget {
   _TypingIndicatorWidgetState createState() => _TypingIndicatorWidgetState();
 }
 
-class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget> with SingleTickerProviderStateMixin {
+class _TypingIndicatorWidgetState extends State<TypingIndicatorWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _dot1Animation;
   late Animation<double> _dot2Animation;

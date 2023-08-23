@@ -24,7 +24,8 @@ class DioRequestRepositoryImpl implements DioRequestRepository {
   @override
   Future<Either<Failure, String>> saveResponse(Response response) async {
     try {
-      final result = await localDataSource!.saveResponse(response.toHttpResponse());
+      final result =
+          await localDataSource!.saveResponse(response.toHttpResponse());
       return Right(result);
     } catch (e) {
       return Left(GeneralFailure(e.toString()));
@@ -34,7 +35,8 @@ class DioRequestRepositoryImpl implements DioRequestRepository {
   @override
   Future<Either<Failure, String>> saveRequest(RequestOptions options) async {
     try {
-      final result = await localDataSource!.saveRequest(options.toHttpRequest());
+      final result =
+          await localDataSource!.saveRequest(options.toHttpRequest());
       return Right(result);
     } catch (e) {
       return Left(GeneralFailure(e.toString()));
@@ -44,7 +46,8 @@ class DioRequestRepositoryImpl implements DioRequestRepository {
   @override
   Future<Either<Failure, String>> saveError(DioError e) async {
     try {
-      final result = await localDataSource!.saveError(e.toHttpError(), e.toHttpErrorFromResponse());
+      final result = await localDataSource!
+          .saveError(e.toHttpError(), e.toHttpErrorFromResponse());
       return Right(result);
     } catch (e) {
       return Left(GeneralFailure(e.toString()));

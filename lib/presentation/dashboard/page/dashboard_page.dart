@@ -92,7 +92,7 @@ class DashboardPage extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget buildBody(BuildContext context, DashboardNotifier provider) {
     if (provider.getAllResponsesState == RequestState.loading) {
       return const Center(

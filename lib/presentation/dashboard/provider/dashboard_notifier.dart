@@ -11,8 +11,8 @@ class DashboardNotifier extends ChangeNotifier {
   GetLogUseCase? getLogUseCase;
   ClearLogUseCase? clearLogUseCase;
   StreamSubscription<List<HttpActivity>>? _subscription;
-  FocusNode focusNode = FocusNode();  
-  
+  FocusNode focusNode = FocusNode();
+
   DashboardNotifier({this.getLogUseCase, this.clearLogUseCase}) {
     getLogUseCase = di.GetIt.I<GetLogUseCase>();
     clearLogUseCase = di.GetIt.I<ClearLogUseCase>();
@@ -56,17 +56,18 @@ class DashboardNotifier extends ChangeNotifier {
           _getAllResponses = event;
           _getAllResponses.sort(
             (call1, call2) =>
-                call2.request?.createdAt?.compareTo(call1.request!.createdAt!) ??
+                call2.request?.createdAt
+                    ?.compareTo(call1.request!.createdAt!) ??
                 -1,
           );
-        
+
           notifyListeners();
         });
-      },      
+      },
     );
-    
-      _getAllResponsesState = RequestState.loaded;
-      notifyListeners();
+
+    _getAllResponsesState = RequestState.loaded;
+    notifyListeners();
   }
 
   @override
@@ -111,8 +112,8 @@ class DashboardNotifier extends ChangeNotifier {
         _getAllResponses.sort(
           (call1, call2) =>
               call1.response?.responseStatusCode
-                      ?.compareTo(call2.response!.responseStatusCode!) ??
-                  -1,
+                  ?.compareTo(call2.response!.responseStatusCode!) ??
+              -1,
         );
         break;
     }
@@ -129,7 +130,7 @@ class DashboardNotifier extends ChangeNotifier {
       searchController.text = '';
       search(searchController.text);
       return;
-    } 
+    }
   }
 
   void search(String value) {
@@ -139,11 +140,9 @@ class DashboardNotifier extends ChangeNotifier {
       return;
     }
     _activityFromSearch = _getAllResponses
-        .where((element) =>
-            element.request?.path?.contains(value) ?? false)
+        .where((element) => element.request?.path?.contains(value) ?? false)
         .toList();
 
     notifyListeners();
   }
-  
 }

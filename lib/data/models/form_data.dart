@@ -5,7 +5,6 @@ class FormDataFieldModel {
   FormDataFieldModel(this.name, this.value);
 }
 
-
 class FormDataFileModel {
   final String? fileName;
   final String contentType;

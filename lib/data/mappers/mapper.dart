@@ -29,7 +29,7 @@ extension HttpResponseMapper on Response {
 extension HttpActivityMapper on HttpError {
   HttpActivity toHttpActivity(DioError e) {
     return HttpActivity(
-      response: HttpResponse(
+        response: HttpResponse(
       responseStatusCode: e.response?.statusCode,
       responseStatusMessage: e.response?.statusMessage,
       createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -53,7 +53,9 @@ extension HttpRequestMapper on RequestOptions {
       secure: uri.scheme == 'https',
       client: "Dio",
       requestHeader: _jsonUtil.encodeRawJson(headers),
-      requestBody: data is FormData ? _jsonUtil.encodeRawJson(getFormData(data)) : _jsonUtil.encodeRawJson(data),
+      requestBody: data is FormData
+          ? _jsonUtil.encodeRawJson(getFormData(data))
+          : _jsonUtil.encodeRawJson(data),
       createdAt: DateTime.now().millisecondsSinceEpoch,
       requestSize: _byteUtil.stringToBytes(data.toString()),
       requestHashCode: hashCode,
