@@ -6,93 +6,113 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DashboardPage extends StatelessWidget {
+  static const routeName = '/dio-request-inspector/dashboard';
+
   const DashboardPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<DashboardNotifier>(
-      create: (context) => DashboardNotifier(),
-      child: Consumer<DashboardNotifier>(
-        builder: (context, provider, child) {
-          return Scaffold(
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  provider.clearAllResponses();
-                },
-                backgroundColor: Colors.purple.withOpacity(0.6),
-                child: const Icon(Icons.delete),
-              ),
-              appBar: AppBar(
-                leading: IconButton(
+    return GestureDetector(
+      onLongPress: () {},
+      child: ChangeNotifierProvider<DashboardNotifier>(
+        create: (context) => DashboardNotifier(),
+        child: Consumer<DashboardNotifier>(
+          builder: (context, provider, child) {
+            return Scaffold(
+                backgroundColor: Colors.grey[200],
+                floatingActionButton: FloatingActionButton(
                   onPressed: () {
-                    if (provider.isSearch) {
-                      provider.toggleSearch();
-                      return;
-                    }
-
-                    Navigator.pop(context);
+                    provider.clearAllResponses();
                   },
-                  icon: const Icon(Icons.arrow_back),
+                  backgroundColor: Colors.green,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(100),
+                          bottomRight: Radius.circular(100),
+                          topLeft: Radius.circular(100))),
+                  child: const Icon(Icons.delete, color: Colors.white),
                 ),
-                actions: [
-                  IconButton(
-                      onPressed: () {
+                appBar: AppBar(
+                  surfaceTintColor: Colors.transparent,
+                  leading: IconButton(
+                    onPressed: () {
+                      if (provider.isSearch) {
                         provider.toggleSearch();
-                      },
-                      icon:
-                          Icon(provider.isSearch ? Icons.close : Icons.search)),
-                  PopupMenuButton(itemBuilder: (context) {
-                    return [
-                      const PopupMenuItem(
-                        value: SortActivity.byTime,
-                        child: Text('Time'),
-                      ),
-                      const PopupMenuItem(
-                        value: SortActivity.byMethod,
-                        child: Text('Method'),
-                      ),
-                      const PopupMenuItem(
-                        value: SortActivity.byStatus,
-                        child: Text('Status'),
-                      ),
-                    ];
-                  }, onSelected: (value) {
-                    provider.sortAllResponses(value);
-                  })
-                ],
-                title: !provider.isSearch
-                    ? const Text('Http Activities')
-                    : TextField(
-                        style: const TextStyle(color: Colors.white),
-                        autofocus: true,
-                        onChanged: (value) {
-                          provider.search(value);
+                        return;
+                      }
+    
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  ),
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          provider.toggleSearch();
                         },
-                        focusNode: provider.focusNode,
-                        controller: provider.searchController,
-                        decoration: const InputDecoration(
-                          hintText: 'Search',
-                          hintStyle: TextStyle(color: Colors.white),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color:
-                                    Colors.white), // Set focused border color
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color:
-                                    Colors.white), // Set enabled border color
+                        icon: Icon(
+                          provider.isSearch ? Icons.close : Icons.search,
+                          color: Colors.white,
+                        )),
+                    PopupMenuButton(
+                        icon: const Icon(Icons.sort),
+                        iconColor: Colors.white,
+                        itemBuilder: (context) {
+                          return [
+                            const PopupMenuItem(
+                              value: SortActivity.byTime,
+                              child: Text('Time'),
+                            ),
+                            const PopupMenuItem(
+                              value: SortActivity.byMethod,
+                              child: Text('Method'),
+                            ),
+                            const PopupMenuItem(
+                              value: SortActivity.byStatus,
+                              child: Text('Status'),
+                            ),
+                          ];
+                        },
+                        onSelected: (value) {
+                          provider.sortAllResponses(value);
+                        })
+                  ],
+                  title: !provider.isSearch
+                      ? const Text('Http Activities',
+                          style: TextStyle(color: Colors.white))
+                      : TextField(
+                          style: const TextStyle(color: Colors.white),
+                          autofocus: true,
+                          onChanged: (value) {
+                            provider.search(value);
+                          },
+                          focusNode: provider.focusNode,
+                          controller: provider.searchController,
+                          decoration: const InputDecoration(
+                            hintText: 'Search',
+                            hintStyle: TextStyle(color: Colors.white),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color:
+                                      Colors.white), // Set focused border color
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color:
+                                      Colors.white), // Set enabled border color
+                            ),
                           ),
                         ),
-                      ),
-                backgroundColor: Colors.purple.withOpacity(0.6),
-              ),
-              body: buildBody(context, provider));
-        },
+                  backgroundColor: Colors.green,
+                ),
+                body: buildBody(context, provider));
+          },
+        ),
       ),
     );
   }
-  
+
   Widget buildBody(BuildContext context, DashboardNotifier provider) {
     if (provider.getAllResponsesState == RequestState.loading) {
       return const Center(

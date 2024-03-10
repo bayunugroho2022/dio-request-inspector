@@ -1,7 +1,14 @@
-## [2.2.0]
+## 3.0.0
+
+* chore: migrate implementation from `navigatorKey` to `navigatorObservers` 
+* feat: image support
+* style: show duration and size in list activity
+* chore: update dependency
+* chore: adjustment long press to open activity when stay in inspector
+
+## 2.2.0
 
 * feat: add search activity
-
 
 ## 2.1.3
 

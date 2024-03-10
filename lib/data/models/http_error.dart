@@ -5,6 +5,7 @@ class HttpError {
   final int? errorStatusCode;
   final int? errorHashCode;
   final String? errorMessage;
+  final int? errorSize;
 
   HttpError({
     this.id,
@@ -13,5 +14,6 @@ class HttpError {
     this.errorStatusCode,
     this.errorHashCode,
     this.errorMessage,
+    this.errorSize,
   });
 }

@@ -1,6 +1,6 @@
 name: dio_request_inspector
 description: Debug and Sharing your HTTP Request/Response with UI Inspector.
-version: 2.2.0
+version: 3.0.0
 homepage: https://github.com/bayunugroho2022/dio-request-inspector
 
 environment:
@@ -15,7 +15,7 @@ dependencies:
   get_it: ^7.2.0
   equatable: ^2.0.5
   provider: ^6.0.5
-  intl: ^0.17.0
+  intl: ^0.19.0
   share_plus: ^7.0.2
   rxdart: ^0.27.7
 

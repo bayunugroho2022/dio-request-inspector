@@ -1,3 +1,5 @@
+import 'package:dio_request_inspector/dio_request_inspector.dart';
+import 'package:dio_request_inspector/presentation/dashboard/page/dashboard_page.dart';
 import 'package:flutter/material.dart';
 
 class SnackBarHelper {
@@ -6,7 +8,6 @@ class SnackBarHelper {
       String? title,
       String? content,
       String? actionLabel,
-      required Function()? action,
       Duration? duration}) {
     final snackBar = SnackBar(
       content: Row(
@@ -34,9 +35,13 @@ class SnackBarHelper {
       backgroundColor: Colors.purple.withOpacity(0.6),
       duration: duration!,
       action: SnackBarAction(
-        label: actionLabel ?? 'VIEW',
+        label: 'View',
         textColor: Colors.white,
-        onPressed: action!,
+        onPressed: () {
+          DioRequestInspector.navigatorObserver.navigator
+              ?.push(MaterialPageRoute<dynamic>(
+                  builder: (_) => const DashboardPage()));
+        },
       ),
     );
 
