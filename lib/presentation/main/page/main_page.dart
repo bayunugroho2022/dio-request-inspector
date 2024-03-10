@@ -1,4 +1,5 @@
 import 'package:dio_request_inspector/dio_request_inspector.dart';
+import 'package:dio_request_inspector/presentation/dashboard/page/dashboard_page.dart';
 import 'package:flutter/material.dart';
 
 class DioRequestInspectorMain extends StatelessWidget {
@@ -13,7 +14,8 @@ class DioRequestInspectorMain extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPress: () {
-        inspector.navigateToDetail();
+        DioRequestInspector.navigatorObserver.navigator?.push(
+            MaterialPageRoute<dynamic>(builder: (_) => const DashboardPage()));
       },
       child: child,
     );

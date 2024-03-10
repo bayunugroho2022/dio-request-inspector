@@ -98,10 +98,25 @@ class DetailNotifier extends ChangeNotifier {
     _responses.add(ResponseHeaderWidget(
       headers: data?.response?.responseHeader,
     ));
-    _responses.add(CardItem(
+
+    var contentTypeList = data?.response?.responseHeader?["content-type"];
+    if (contentTypeList != null && contentTypeList.any((contentType) => contentType.contains("image"))) {
+      final uri = data!.request!.secure!
+          ? "https://${data?.request!.server!}${data?.request?.path}"
+          : "http://${data?.request!.server!}${data?.request?.path}";
+
+      _responses.add(CardItem(
+          name: "Body",
+          isImage: true,
+          value: uri, 
+      ));
+    } else {
+      _responses.add(CardItem(
         name: "Body",
         value: data?.response?.responseBody ?? "N/A",
         showCopyButton: showCopyButton));
+    }
+
     _responses.add(const ListRowWidget(space: 20));
 
     //error
@@ -116,6 +131,6 @@ class DetailNotifier extends ChangeNotifier {
   }
 
   void share() {
-    shareActivity!.data(data!);
+    shareActivity?.data(data!);
   }
 }

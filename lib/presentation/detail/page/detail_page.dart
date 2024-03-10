@@ -6,27 +6,29 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DetailPage extends StatelessWidget {
+  static const routeName = '/dio-request-inspector/detail';
+
   final HttpActivity data;
 
   const DetailPage({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<DetailNotifier>(
-        create: (context) => DetailNotifier(
-              data: data,
-            ),
-        builder: (context, child) {
-          Color colorByStatusCode =
-              data.response?.responseStatusCode?.colorByStatusCode ??
-                  Colors.red;
-          return Scaffold(
-            appBar: _appBar(context, colorByStatusCode),
-            floatingActionButton:
-                _floatingActionButton(context, colorByStatusCode),
-            body: _buildBody(context),
-          );
-        });
+    return GestureDetector(
+      onLongPress: () {},
+      child: ChangeNotifierProvider<DetailNotifier>(
+          create: (context) => DetailNotifier(
+                data: data,
+              ),
+          builder: (context, child) {
+            Color colorByStatusCode = data.response?.responseStatusCode?.colorByStatusCode ?? Colors.red;
+            return Scaffold(
+              appBar: _appBar(context, colorByStatusCode),
+              floatingActionButton: _floatingActionButton(context, colorByStatusCode),
+              body: _buildBody(context),
+            );
+          }),
+    );
   }
 
   Widget _buildBody(BuildContext context) {
@@ -73,17 +75,29 @@ class DetailPage extends StatelessWidget {
 
   Widget _floatingActionButton(BuildContext context, Color colorByStatusCode) {
     return FloatingActionButton(
-      backgroundColor: colorByStatusCode,
       onPressed: () {
         context.read<DetailNotifier>().share();
       },
-      child: const Icon(Icons.share),
+    backgroundColor: colorByStatusCode,
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20),
+            bottomLeft: Radius.circular(100),
+            bottomRight: Radius.circular(100),
+            topLeft: Radius.circular(100))),
+    child: const Icon(Icons.share, color: Colors.white),
     );
   }
 
   PreferredSizeWidget _appBar(BuildContext context, Color colorByStatusCode) {
     return AppBar(
-        title: const Text('Detail Activity'),
+        title: const Text('Detail Activity', style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+        ),
         backgroundColor: colorByStatusCode);
   }
 }

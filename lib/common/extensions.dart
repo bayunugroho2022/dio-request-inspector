@@ -53,6 +53,12 @@ extension DateTimeExtension on int {
     var d12 = DateFormat('dd-MM-yyyy HH:mm:ss').format(date);
     return d12;
   }
+
+  String get toTime {
+    var date = DateTime.fromMillisecondsSinceEpoch(this);
+    var d12 = DateFormat('HH:mm:ss').format(date);
+    return d12;
+  }
 }
 
 extension IntToByteExtension on int? {

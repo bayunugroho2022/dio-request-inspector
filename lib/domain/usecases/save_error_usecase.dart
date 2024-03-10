@@ -8,7 +8,7 @@ class SaveErrorUseCase {
 
   SaveErrorUseCase(this.repository);
 
-  Future<Either<Failure, String>> execute(DioError error) {
+  Future<Either<Failure, String>> execute(DioException error) {
     return repository!.saveError(error);
   }
 }

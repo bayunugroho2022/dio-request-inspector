@@ -75,6 +75,14 @@ _dio.interceptors.add(dioRequestInspector.getDioRequestInterceptor());
 DioRequestInspectorMain(inspector: dioRequestInspector, child: MyApp())
 ```
 4. add NavigatorKey to your MaterialApp for direct to Inspector UI
+### version >= 3.0.0
+```dart
+navigatorObservers: [
+  DioRequestInspector.navigatorObserver,
+],
+```
+
+### version < 3.0.0
 ```dart
 navigatorKey: dioRequestInspector.navigatorKey,
 ```

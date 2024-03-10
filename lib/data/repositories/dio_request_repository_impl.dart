@@ -44,7 +44,7 @@ class DioRequestRepositoryImpl implements DioRequestRepository {
   }
 
   @override
-  Future<Either<Failure, String>> saveError(DioError e) async {
+  Future<Either<Failure, String>> saveError(DioException e) async {
     try {
       final result = await localDataSource!
           .saveError(e.toHttpError(), e.toHttpErrorFromResponse());

@@ -6,8 +6,14 @@ class CardItem extends StatelessWidget {
   final String? name;
   final String? value;
   final bool showCopyButton;
+  final bool isImage;
 
-  const CardItem({Key? key, this.name, this.value, this.showCopyButton = false})
+  const CardItem(
+      {Key? key,
+      this.name,
+      this.value,
+      this.showCopyButton = false,
+      this.isImage = false})
       : super(key: key);
 
   @override
@@ -38,19 +44,25 @@ class CardItem extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
-            width: double.infinity,
-            child: Card(
-              elevation: 0,
-              color: Colors.grey[100],
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SelectableText(
-                  value!.isJson ? value.prettify : value!,
+          if (isImage)
+            Image.network(
+              value!,
+              width: double.infinity,
+            ),
+          if (!isImage)
+            SizedBox(
+              width: double.infinity,
+              child: Card(
+                elevation: 0,
+                color: Colors.grey[100],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SelectableText(
+                    value!.isJson ? value.prettify : value!,
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
