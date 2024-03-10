@@ -30,3 +30,4 @@ migrate_working_dir/
 build/
 
 .fvm/flutter_sdk
+example/.fvm/flutter_sdk
