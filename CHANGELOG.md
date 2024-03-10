@@ -1,3 +1,7 @@
+## 3.0.1
+* docs: update README.md
+
+
 ## 3.0.0
 
 * chore: migrate implementation from `navigatorKey` to `navigatorObservers` 
