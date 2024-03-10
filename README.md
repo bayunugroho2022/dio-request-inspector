@@ -81,3 +81,7 @@ DioRequestInspectorMain(
   ),
 )
 ```
+
+
+### See Inspector UI
+Run your app and long press on the screen to open the inspector UI.
