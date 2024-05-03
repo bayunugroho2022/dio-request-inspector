@@ -1,16 +1,13 @@
 import 'package:dio_request_inspector/dio_request_inspector.dart';
 import 'package:dio_request_inspector/presentation/main/page/main_page.dart';
 import 'package:dio/dio.dart';
+import 'package:example/dio_request_inspector_setting.dart';
 import 'package:flutter/material.dart';
 
-DioRequestInspector dioRequestInspector =
-    DioRequestInspector(isDebugMode: true, showFloating: true);
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(DioRequestInspectorMain(
-    
-      inspector: dioRequestInspector, child: const MyApp()));
+  runApp(DioRequestInspectorMain(inspector: inspector, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -44,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     _dio = Dio();
-    _dio.interceptors.add(dioRequestInspector.getDioRequestInterceptor());
+    _dio.interceptors.add(inspector.getDioRequestInterceptor());
     super.initState();
   }
 
@@ -107,6 +104,16 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 16,
             ),
+            ElevatedButton(
+              onPressed: _openInspector,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.purple.withOpacity(0.6),
+              ),
+              child: const Text("Open Inspector", style: TextStyle(color: Colors.white)),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
           ],
         ),
       ),
@@ -128,4 +135,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void _getImageRequest() {
     _dio.get<void>("https://httpbin.org/image/png");
   }
+
+  void _openInspector() => toInspector();
 }

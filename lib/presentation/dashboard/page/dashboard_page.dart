@@ -1,14 +1,34 @@
+import 'dart:ui';
+
 import 'package:dio_request_inspector/common/enums.dart';
 import 'package:dio_request_inspector/presentation/dashboard/provider/dashboard_notifier.dart';
 import 'package:dio_request_inspector/presentation/dashboard/widget/item_response_widget.dart';
+import 'package:dio_request_inspector/presentation/dashboard/widget/password_protection_dialog.dart';
 import 'package:dio_request_inspector/presentation/detail/page/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   static const routeName = '/dio-request-inspector/dashboard';
+  final String password;
 
-  const DashboardPage({Key? key}) : super(key: key);
+  const DashboardPage({Key? key, this.password = ''}) : super(key: key);
+
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (widget.password.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        dialogInputPassword();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +61,7 @@ class DashboardPage extends StatelessWidget {
                         provider.toggleSearch();
                         return;
                       }
-    
+
                       Navigator.pop(context);
                     },
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -147,5 +167,17 @@ class DashboardPage extends StatelessWidget {
         },
       );
     }
+  }
+
+  void dialogInputPassword() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return PasswordProtectionDialog(
+          password: widget.password,
+        );
+      },
+    );
   }
 }

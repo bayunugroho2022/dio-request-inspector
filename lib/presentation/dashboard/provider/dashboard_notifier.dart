@@ -11,7 +11,7 @@ class DashboardNotifier extends ChangeNotifier {
   GetLogUseCase? getLogUseCase;
   ClearLogUseCase? clearLogUseCase;
   StreamSubscription<List<HttpActivity>>? _subscription;
-  FocusNode focusNode = FocusNode();  
+  FocusNode focusNode = FocusNode(); 
   
   DashboardNotifier({this.getLogUseCase, this.clearLogUseCase}) {
     getLogUseCase = di.GetIt.I<GetLogUseCase>();
