@@ -1,6 +1,12 @@
-## 3.0.1
-* docs: update README.md
 
+## 3.1.0
+
+* feat: add function for directly open the inspector
+* style: change UI
+
+## 3.0.1
+
+* docs: update README.md
 
 ## 3.0.0
 
@@ -96,5 +102,4 @@
 
 ## 0.0.5
 
-* chore: flutter format . 
-
+* chore: flutter format .
