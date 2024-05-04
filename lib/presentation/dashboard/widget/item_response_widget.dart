@@ -2,6 +2,7 @@ import 'package:dio_request_inspector/common/extensions.dart';
 import 'package:dio_request_inspector/common/utils/date_time_util.dart';
 import 'package:dio_request_inspector/data/models/http_activity.dart';
 import 'package:dio_request_inspector/presentation/dashboard/widget/dot_animation.dart';
+import 'package:dio_request_inspector/presentation/resources/color.dart';
 import 'package:flutter/material.dart';
 
 class ItemResponseWidget extends StatelessWidget {
@@ -27,80 +28,77 @@ class ItemResponseWidget extends StatelessWidget {
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Column(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                      decoration: BoxDecoration(
-                        color: data.response?.responseStatusCode
-                                ?.colorByStatusCode ??
-                            Colors.grey,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      padding: const EdgeInsets.all(6),
-                      child: Text(
-                        '${data.request?.method}',
-                        style: const TextStyle(color: Colors.white),
-                      )),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       children: [
+                        Text(
+                          '${data.request?.method}',
+                          style: TextStyle(color: AppColor.primary, fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 8),
                         Text(
                           '${data.request?.path}',
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                              color: data.response?.responseStatusCode
-                                      ?.colorByStatusCode ??
-                                  Colors.grey),
-                        ),
-                        Divider(
-                          color: Colors.grey[300],
-                          endIndent: 12,
-                          indent: 0,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              '${data.request?.createdAt?.toTime}',
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                  fontSize: 12, color: Colors.grey),
-                            ),
-                            const Spacer(),
-                            Text(
-                              duration,
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                  fontSize: 12, color: Colors.grey),
-                            ),
-                            const Spacer(),
-                            Text(
-                              data.response?.responseSize?.byteToKiloByte() ?? data.error?.errorSize?.byteToKiloByte() ?? '-',
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                  fontSize: 12, color: Colors.grey),
-                            ),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                          ],
+                              color: AppColor.primary, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
-                  )),
-                  textStatusCode(
-                      statusCode: data.response?.responseStatusCode ?? 0),
-                ],
-              ),
+                    Text(
+                          data.request?.baseUrl ?? '',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: AppColor.primary),
+                        ),
+                    Divider(
+                      color: Colors.grey[300],
+                      endIndent: 12,
+                      indent: 0,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          '${data.request?.createdAt?.toTime}',
+                          textAlign: TextAlign.left,
+                          style:
+                              const TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                        const Spacer(),
+                        Text(
+                          duration,
+                          textAlign: TextAlign.left,
+                          style:
+                              const TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                        const Spacer(),
+                        Text(
+                          data.response?.responseSize?.byteToKiloByte() ??
+                              data.error?.errorSize?.byteToKiloByte() ??
+                              '-',
+                          textAlign: TextAlign.left,
+                          style:
+                              const TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )),
+              textStatusCode(
+                  statusCode: data.response?.responseStatusCode ?? 0),
             ],
           ),
         ),

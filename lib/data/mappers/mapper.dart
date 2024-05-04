@@ -45,7 +45,7 @@ extension HttpActivityMapper on HttpError {
 extension HttpRequestMapper on RequestOptions {
   HttpRequest toHttpRequest() {
     return HttpRequest(
-      baseUrl: baseUrl,
+      baseUrl: uri.origin,
       path: uri.path,
       params: _jsonUtil.encodeRawJson(uri.parameters),
       method: method,

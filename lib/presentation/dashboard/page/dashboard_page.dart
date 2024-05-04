@@ -1,14 +1,33 @@
 import 'package:dio_request_inspector/common/enums.dart';
 import 'package:dio_request_inspector/presentation/dashboard/provider/dashboard_notifier.dart';
 import 'package:dio_request_inspector/presentation/dashboard/widget/item_response_widget.dart';
+import 'package:dio_request_inspector/presentation/dashboard/widget/password_protection_dialog.dart';
 import 'package:dio_request_inspector/presentation/detail/page/detail_page.dart';
+import 'package:dio_request_inspector/presentation/resources/color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   static const routeName = '/dio-request-inspector/dashboard';
+  final String password;
 
-  const DashboardPage({Key? key}) : super(key: key);
+  const DashboardPage({Key? key, this.password = ''}) : super(key: key);
+
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (widget.password.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        dialogInputPassword();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +43,7 @@ class DashboardPage extends StatelessWidget {
                   onPressed: () {
                     provider.clearAllResponses();
                   },
-                  backgroundColor: Colors.green,
+                  backgroundColor: Colors.red,
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(20),
@@ -36,15 +55,16 @@ class DashboardPage extends StatelessWidget {
                 appBar: AppBar(
                   surfaceTintColor: Colors.transparent,
                   leading: IconButton(
+                    color: AppColor.primary,
                     onPressed: () {
                       if (provider.isSearch) {
                         provider.toggleSearch();
                         return;
                       }
-    
+
                       Navigator.pop(context);
                     },
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    icon: Icon(Icons.arrow_back, color: AppColor.primary),
                   ),
                   actions: [
                     IconButton(
@@ -53,10 +73,10 @@ class DashboardPage extends StatelessWidget {
                         },
                         icon: Icon(
                           provider.isSearch ? Icons.close : Icons.search,
-                          color: Colors.white,
+                          color: AppColor.primary,
                         )),
                     PopupMenuButton(
-                        icon: const Icon(Icons.sort),
+                        icon: Icon(Icons.sort, color: AppColor.primary,),
                         iconColor: Colors.white,
                         itemBuilder: (context) {
                           return [
@@ -79,32 +99,31 @@ class DashboardPage extends StatelessWidget {
                         })
                   ],
                   title: !provider.isSearch
-                      ? const Text('Http Activities',
-                          style: TextStyle(color: Colors.white))
+                      ? Text('Http Activities',
+                          style: TextStyle(color: AppColor.primary))
                       : TextField(
-                          style: const TextStyle(color: Colors.white),
+                          style: TextStyle(color: AppColor.primary),
                           autofocus: true,
                           onChanged: (value) {
                             provider.search(value);
                           },
                           focusNode: provider.focusNode,
                           controller: provider.searchController,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             hintText: 'Search',
-                            hintStyle: TextStyle(color: Colors.white),
-                            focusedBorder: UnderlineInputBorder(
+                            focusColor: AppColor.primary,
+                            hintStyle: TextStyle(color: AppColor.primary),
+                            focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
-                                  color:
-                                      Colors.white), // Set focused border color
+                                  color: Colors.white),
                             ),
-                            enabledBorder: UnderlineInputBorder(
+                            enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
-                                  color:
-                                      Colors.white), // Set enabled border color
+                                  color: Colors.white),
                             ),
                           ),
                         ),
-                  backgroundColor: Colors.green,
+                  backgroundColor: Colors.white,
                 ),
                 body: buildBody(context, provider));
           },
@@ -147,5 +166,17 @@ class DashboardPage extends StatelessWidget {
         },
       );
     }
+  }
+
+  void dialogInputPassword() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return PasswordProtectionDialog(
+          password: widget.password,
+        );
+      },
+    );
   }
 }

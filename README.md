@@ -1,87 +1,72 @@
-
 <p align="center">
     <img src="https://user-images.githubusercontent.com/91040581/210127198-791f085b-61b8-4a77-8168-986c9a90d806.png" width="200" height="185">
 </p>
 
-<div align="center">
-
-[![pub package](https://img.shields.io/pub/v/dio_request_inspector.svg)](https://pub.dartlang.org/packages/dio_request_inspector)
-[![License: BSD 3-Clause](https://img.shields.io/github/license/bayunugroho2022/dio-request-inspector.svg?style=flat)](https://github.com/bayunugroho2022/dio-request-inspector/blob/master/LICENSE)
-[![pub package](https://img.shields.io/badge/platform-flutter-blue.svg)](https://github.com/bayunugroho2022/dio-request-inspector)
-
-</div>
-
-<h3 align="center">Dio Requests Inspector Package</h3>
-
-
-<h1 align="center">Effortlessly Debug Your Flutter Network Requests</h1>
+<h3 align="center">Dio Requests Inspector</h3>
 
 <p align="center">
-  "Dio Request Inspector" is a handy open-source tool for **monitoring and analyzing HTTP requests** in Flutter applications using the Dio package. It provides real-time insights, detailed request information, and filtering capabilities, making it easy to **track and troubleshoot server interactions**.
+A HTTP inspector for Dio, which can intercept and log HTTP requests and responses.
+  <br>
+  <br>
+  <br>
+  <br>
 </p>
 
-<div align="center">
-<img src="https://github.com/bayunugroho2022/dio-request-inspector/assets/91040581/3b5df5c3-95d1-4072-9cca-464f12a507d7" width="260">
-<img src="https://github.com/bayunugroho2022/dio-request-inspector/assets/91040581/14f40aef-9bac-4173-9c13-4207b976841e" width="250">
-<img src="https://github.com/bayunugroho2022/dio-request-inspector/assets/91040581/b4d62644-c356-4119-bc58-06dc2a340458" width="250">
-
-</div>
-
-<br clear="left"/>
-
+![ss](https://github.com/bayunugroho2022/dio-request-inspector/assets/91040581/efd6d3c9-c068-4fed-a94e-a30b9cd616ab)
 <br>
 
-## Get Started
+## Features
 
-**Installation**
+- [X] Intercept and log HTTP requests and responses
+- [X] Secure HTTP requests with passwords
+- [X] Filter logs by request time, method, and status
+- [X] Search logs by path
+- [X] Easily share request and response data
+- [X] Beautify JSON data
+- [X] Beautiful user interface
 
-Add the dependency to your `pubspec.yaml`:
+## How to use
 
-You can use the command to add dio_request_inspector as a dependency with the latest stable version:
+- Add the package with command
 
-```console
-$ flutter pub add dio_request_inspector
+```bash
+flutter pub add dio_request_inspector
 ```
 
-Or you can manually add dio_request_inspector into the dependencies section in your pubspec.yaml:
-
-```yaml
-dependencies:
-  dio_request_inspector: ^replace-with-latest-version
-```
-
-The latest version is: [![pub package](https://img.shields.io/pub/v/dio_request_inspector.svg)](https://pub.dartlang.org/packages/dio_request_inspector)
-
-### Basic Usage
-
-1. Create DioRequestInspector instance
-```dart 
-DioRequestInspector dioRequestInspector = DioRequestInspector(isDebugMode: true);
-```
-2. Add DioRequestInterceptor to your Dio instance
-```dart
-_dio.interceptors.add(dioRequestInspector.getDioRequestInterceptor());
-```
-3. Wrap your MaterialApp with DioRequestInspectorMain
-```dart
-DioRequestInspectorMain(inspector: dioRequestInspector, child: MyApp())
-```
-
-4. Integrate with MaterialApp (version >= 3.0.0)
-Wrap your `MaterialApp` with `DioRequestInspectorMain` and utilize the `navigatorObservers` property to enable automatic navigation to the inspector UI:
+- add `navigatorObservers` to your `MaterialApp`
 
 ```dart
-DioRequestInspectorMain(
-  inspector: dioRequestInspector,
-  child: MaterialApp(
-    // Your MaterialApp configuration
-    navigatorObservers: [
-      DioRequestInspector.navigatorObserver,
-    ],
-  ),
-)
+navigatorObservers: [
+  DioRequestInspector.navigatorObserver,
+],
 ```
 
+- Wrap your `myApp` with `DioRequestInspectorMain`
 
-### See Inspector UI
-Run your app and long press on the screen to open the inspector UI.
+```dart
+void main() {
+  runApp(DioRequestInspectorMain(
+    isDebugMode: true,
+    child: MyApp(),
+  ));
+}
+```
+
+- add interceptor to your Dio instance
+
+```dart
+final DioRequestInspector inspector = DioRequestInspector(
+  isDebugMode: true,
+  duration: const Duration(milliseconds: 500),
+  showFloating: true,
+  password: '123456',
+);
+
+dio.interceptors.add(inspector.getDioRequestInterceptor());
+```
+
+see detail example
+
+## Note
+
+- tap ```Long press``` on your screen to show DioRequestInspector UI
