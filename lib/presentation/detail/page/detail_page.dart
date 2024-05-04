@@ -1,7 +1,6 @@
-import 'package:dio_request_inspector/common/extensions.dart';
 import 'package:dio_request_inspector/data/models/http_activity.dart';
 import 'package:dio_request_inspector/presentation/detail/provider/detail_notifier.dart';
-import 'package:dio_request_inspector/presentation/detail/widget/card_item_widget.dart';
+import 'package:dio_request_inspector/presentation/resources/color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,15 +16,15 @@ class DetailPage extends StatelessWidget {
     return GestureDetector(
       onLongPress: () {},
       child: ChangeNotifierProvider<DetailNotifier>(
-          create: (context) => DetailNotifier(
-                data: data,
-              ),
+          create: (context) => DetailNotifier(data: data),
           builder: (context, child) {
-            Color colorByStatusCode = data.response?.responseStatusCode?.colorByStatusCode ?? Colors.red;
-            return Scaffold(
-              appBar: _appBar(context, colorByStatusCode),
-              floatingActionButton: _floatingActionButton(context, colorByStatusCode),
-              body: _buildBody(context),
+            return DefaultTabController(
+              length: 4,
+              child: Scaffold(
+                appBar: _appBar(context),
+                floatingActionButton: _floatingActionButton(context),
+                body: _buildBody(context),
+              ),
             );
           }),
     );
@@ -34,70 +33,115 @@ class DetailPage extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     return Consumer<DetailNotifier>(
       builder: (context, provider, child) {
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              _overviewWidget(provider.overviews),
-              _requestWidget(provider.requests),
-              _responseWidget(provider.responses),
-              _errorWidget(provider.errors),
-            ],
-          ),
+        return TabBarView(
+          children: [
+            _overviewWidget(provider.overviews),
+            _requestWidget(provider.requests),
+            _responseWidget(provider.responses),
+            _errorWidget(provider.errors),
+          ],
         );
       },
     );
   }
 
   Widget _responseWidget(List<Widget> responses) {
-    return ExpansionTile(
-        initiallyExpanded: responses.whereType<CardItem>().isNotEmpty,
-        title: const Text('Response'),
-        children: responses);
-  }
-
-  Widget _errorWidget(List<Widget> errors) {
-    return Visibility(
-      visible: errors.isNotEmpty,
-      child: ExpansionTile(
-          initiallyExpanded: errors.isNotEmpty,
-          title: const Text('Error'),
-          children: errors),
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        children: responses,
+      ),
     );
   }
 
+  Widget _errorWidget(List<Widget> errors) {
+    return errors.isEmpty
+        ? Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(Icons.warning, color: AppColor.primary, size: 50),
+                Text('No error found',
+                    style: TextStyle(color: AppColor.primary)),
+              ],
+            ),
+          )
+        : SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: errors,
+            ),
+          );
+  }
+
   Widget _requestWidget(List<Widget> requests) {
-    return ExpansionTile(title: const Text('Request'), children: requests);
+    return SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(children: requests));
   }
 
   Widget _overviewWidget(List<Widget> overviews) {
-    return ExpansionTile(title: const Text('Overview'), children: overviews);
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Column(
+          children: overviews,
+        ),
+      ),
+    );
   }
 
-  Widget _floatingActionButton(BuildContext context, Color colorByStatusCode) {
+  Widget _floatingActionButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
         context.read<DetailNotifier>().share();
       },
-    backgroundColor: colorByStatusCode,
-    shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20),
-            bottomLeft: Radius.circular(100),
-            bottomRight: Radius.circular(100),
-            topLeft: Radius.circular(100))),
-    child: const Icon(Icons.share, color: Colors.white),
+      backgroundColor: AppColor.primary,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20),
+              bottomLeft: Radius.circular(100),
+              bottomRight: Radius.circular(100),
+              topLeft: Radius.circular(100))),
+      child: const Icon(Icons.share, color: Colors.white),
     );
   }
 
-  PreferredSizeWidget _appBar(BuildContext context, Color colorByStatusCode) {
+  PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
-        title: const Text('Detail Activity', style: TextStyle(color: Colors.white)),
+        title:Text('Detail Activity', style: TextStyle(color: AppColor.primary)),
+        elevation: 3,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: AppColor.primary),
         ),
-        backgroundColor: colorByStatusCode);
+        bottom: TabBar(
+          tabs: [
+            Tab(
+              text: 'Overview',
+              icon: Icon(
+                Icons.info,
+                color: AppColor.primary,
+              ),
+            ),
+            Tab(
+              text: 'Request',
+              icon: Icon(Icons.arrow_upward, color: AppColor.primary),
+            ),
+            Tab(
+              text: 'Response',
+              icon: Icon(Icons.arrow_downward, color: AppColor.primary),
+            ),
+            Tab(
+              text: 'Error',
+              icon: Icon(Icons.warning, color: AppColor.primary),
+            ),
+          ],
+        ),
+        backgroundColor: AppColor.white);
   }
 }

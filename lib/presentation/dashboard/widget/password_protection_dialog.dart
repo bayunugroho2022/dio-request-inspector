@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dio_request_inspector/presentation/resources/color.dart';
 import 'package:flutter/material.dart';
 
 class PasswordProtectionDialog extends StatelessWidget {
@@ -97,12 +98,12 @@ class PasswordProtectionDialog extends StatelessWidget {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                side: const BorderSide(color: Colors.green),
+                                side: BorderSide(color: AppColor.primary),
                                 textStyle: const TextStyle(color: Colors.white),
                                 backgroundColor: Colors.white,
                               ),
-                              child: const Text('Cancel',
-                                  style: TextStyle(color: Colors.green)),
+                              child: Text('Cancel',
+                                  style: TextStyle(color: AppColor.primary)),
                             ),
                           ),
                           // cancel
@@ -120,9 +121,9 @@ class PasswordProtectionDialog extends StatelessWidget {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                side: const BorderSide(color: Colors.green),
+                                side: BorderSide(color: AppColor.primary),
                                 textStyle: const TextStyle(color: Colors.white),
-                                backgroundColor: Colors.green,
+                                backgroundColor: AppColor.primary,
                               ),
                               child: const Text('Submit',
                                   style: TextStyle(color: Colors.white)),
