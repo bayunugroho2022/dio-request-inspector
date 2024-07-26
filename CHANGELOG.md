@@ -1,4 +1,8 @@
 
+## 3.1.1
+
+* chore: update dependency
+
 ## 3.1.0
 
 * feat: add function for directly open the inspector

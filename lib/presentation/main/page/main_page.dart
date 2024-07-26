@@ -14,6 +14,10 @@ class DioRequestInspectorMain extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPress: () {
+        if (!inspector.isDebugMode) {
+          return;
+        }
+        
         DioRequestInspector.navigatorObserver.navigator?.push(
             MaterialPageRoute<dynamic>(builder: (_) => const DashboardPage()));
       },

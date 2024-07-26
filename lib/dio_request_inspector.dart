@@ -31,6 +31,9 @@ class DioRequestInspector {
   }
 
   void toInspector() {
+    if (!isDebugMode) {
+      return;
+    } 
     DioRequestInspector.navigatorObserver.navigator?.push(
         MaterialPageRoute<dynamic>(
             builder: (_) => DashboardPage(password: password!)));
