@@ -1,8 +1,8 @@
 import 'package:dio_request_inspector/dio_request_inspector.dart';
 import 'package:dio_request_inspector/presentation/main/page/main_page.dart';
 import 'package:dio/dio.dart';
-import 'package:example/dio_request_inspector_setting.dart';
 import 'package:flutter/material.dart';
+import 'dio_request_inspector_setting.dart';
 
 
 void main() {
