@@ -45,11 +45,13 @@ class ItemResponseWidget extends StatelessWidget {
                           style: TextStyle(color: AppColor.primary, fontSize: 14, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(width: 8),
-                        Text(
-                          '${data.request?.path}',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: AppColor.primary, fontWeight: FontWeight.bold),
+                        Expanded(
+                          child: Text(
+                            '${data.request?.path}',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: AppColor.primary, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ],
                     ),
