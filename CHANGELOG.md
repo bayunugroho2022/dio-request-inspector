@@ -1,4 +1,9 @@
 
+## 3.1.2
+
+* style: fix overflow
+
+
 ## 3.1.1
 
 * chore: update dependency
