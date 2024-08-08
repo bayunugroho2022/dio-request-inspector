@@ -6,4 +6,4 @@ final DioRequestInspector inspector = DioRequestInspector(
   showFloating: true,
 );
 
-final void Function() toInspector = inspector.toInspector;
+final void Function() toInspector = inspector.goToInspector;

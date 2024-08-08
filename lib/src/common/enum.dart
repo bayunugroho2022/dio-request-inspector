@@ -1,0 +1,1 @@
+enum SortActivity { byTime, byMethod, byStatus }
