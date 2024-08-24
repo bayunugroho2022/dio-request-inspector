@@ -44,6 +44,8 @@ class _DetailPageState extends State<DetailPage> {
           icon: Icon(Icons.arrow_back, color: AppColor.primary),
         ),
         bottom: TabBar(
+          labelStyle: TextStyle(color: AppColor.primary),
+          indicatorColor: AppColor.primary,
           tabs: [
             Tab(
               text: 'Overview',

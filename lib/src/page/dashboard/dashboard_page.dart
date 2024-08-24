@@ -35,10 +35,21 @@ class _DashboardPageState extends State<DashboardPage> {
       setState(() {
         allActivities = activities;
         filteredActivities = activities;
-        
-        filteredActivities.sort((a, b) => b.createdTime.compareTo(a.createdTime));
+
+        filteredActivities
+            .sort((a, b) => b.createdTime.compareTo(a.createdTime));
       });
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (widget.password.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        dialogInputPassword();
+      });
+    }
   }
 
   @override
@@ -78,13 +89,15 @@ class _DashboardPageState extends State<DashboardPage> {
       currentSort = sortType;
       switch (sortType) {
         case SortActivity.byTime:
-          filteredActivities.sort((a, b) => b.createdTime.compareTo(a.createdTime));
+          filteredActivities
+              .sort((a, b) => b.createdTime.compareTo(a.createdTime));
           break;
         case SortActivity.byMethod:
           filteredActivities.sort((a, b) => a.method.compareTo(b.method));
           break;
         case SortActivity.byStatus:
-          filteredActivities.sort((a, b) => a.response?.status?.compareTo(b.response?.status ?? 0) ?? 0);
+          filteredActivities.sort((a, b) =>
+              a.response?.status?.compareTo(b.response?.status ?? 0) ?? 0);
           break;
       }
     });
@@ -193,27 +206,115 @@ class _DashboardPageState extends State<DashboardPage> {
       },
     );
   }
-  
+
   Widget _buildBody(List<HttpActivity> filteredActivities) {
-    return ListView.builder(
-        itemCount: filteredActivities.length,
-        itemBuilder: (context, index) {
-          var data = filteredActivities[index];
-          
-          return InkWell(
-            onTap: () {
-              Navigator.push<void>(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailPage(
-                    data: data,
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          width: double.infinity,
+          child: Card(
+            surfaceTintColor: Colors.transparent,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: [
+                      Text('GET',
+                          style: TextStyle(
+                              color: AppColor.primary,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold)),
+                      SizedBox(height: 5),
+                      Text(_getTotalRequest(filteredActivities, 'get')),
+                    ],
                   ),
-                ),
+                  Column(
+                    children: [
+                      Text('POST',
+                          style: TextStyle(
+                              color: AppColor.primary,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold)),
+                      SizedBox(height: 5),
+                      Text(_getTotalRequest(filteredActivities, 'post')),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text('PUT',
+                          style: TextStyle(
+                              color: AppColor.primary,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold)),
+                      SizedBox(height: 5),
+                      Text(_getTotalRequest(filteredActivities, 'put')),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text('PATCH',
+                          style: TextStyle(
+                              color: AppColor.primary,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold)),
+                      SizedBox(height: 5),
+                      Text(_getTotalRequest(filteredActivities, 'patch')),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text('DELETE',
+                          style: TextStyle(
+                              color: AppColor.primary,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold)),
+                      SizedBox(height: 5),
+                      Text(_getTotalRequest(filteredActivities, 'delete')),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: filteredActivities.length,
+            itemBuilder: (context, index) {
+              var data = filteredActivities[index];
+          
+              return InkWell(
+                onTap: () {
+                  Navigator.push<void>(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailPage(
+                        data: data,
+                      ),
+                    ),
+                  );
+                },
+                child: ItemResponseWidget(data: data),
               );
             },
-            child: ItemResponseWidget(data: data),
-          );
-        },
-      );
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _getTotalRequest(List<HttpActivity> getAllResponses, String method) {
+    return getAllResponses
+        .where((e) => e.method.toLowerCase() == method)
+        .length
+        .toString();
   }
 }
