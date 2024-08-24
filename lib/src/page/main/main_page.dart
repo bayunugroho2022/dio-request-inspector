@@ -17,7 +17,9 @@ class DioRequestInspectorMain extends StatelessWidget {
           return;
         }
 
-        inspector.goToInspector();
+        inspector.goToInspector(
+          
+        );
       },
       child: child,
     );
