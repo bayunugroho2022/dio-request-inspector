@@ -1,4 +1,8 @@
 
+## 3.1.3
+
+* chore: remove unused dependency
+
 ## 3.1.2
 
 * style: fix overflow
