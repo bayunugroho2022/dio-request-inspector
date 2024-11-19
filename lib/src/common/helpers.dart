@@ -15,10 +15,10 @@ class Helper {
   static const String _seconds = "s";
   static const String _minutes = "min";
 
-  static void copyToClipboard({String text = '', BuildContext? context}) {
+  static void copyToClipboard({String text = '', BuildContext? context, String message = 'Copied to clipboard'}) {
     Clipboard.setData(ClipboardData(text: text)).then((_) {
       ScaffoldMessenger.of(context!)
-          .showSnackBar(const SnackBar(content: Text("Copied to clipboard")));
+          .showSnackBar(SnackBar(content: Text(message)));
     });
   }
 
@@ -65,4 +65,12 @@ class Helper {
       return rawJson.toString();
     }
   }
+
+  static Map<String, dynamic> decodeRawJson(String json) {
+    try {
+      return jsonDecode(json) as Map<String, dynamic>;
+    } catch (e) {
+      return {};
+    }
+  } 
 }

@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 
 class Interceptor extends InterceptorsWrapper {
   final bool kIsDebug;
-  final bool showFloating;
   final Duration? duration;
   final HttpActivityStorage storage;
   NavigatorObserver? navigatorKey;
@@ -21,7 +20,6 @@ class Interceptor extends InterceptorsWrapper {
     required this.kIsDebug,
     required this.storage,
     this.duration = const Duration(milliseconds: 500),
-    this.showFloating = true,
     this.navigatorKey,
   });
 
@@ -52,17 +50,39 @@ class Interceptor extends InterceptorsWrapper {
 
     final request = HttpRequest();
 
+    final mergedQueryParameters = <String, dynamic>{};
+
+    uri.queryParameters.forEach((key, value) {
+      if (mergedQueryParameters.containsKey(key)) {
+        mergedQueryParameters[key] = [mergedQueryParameters[key], value].expand((e) => e is List ? e : [e]).toList();
+      } else {
+        mergedQueryParameters[key] = value;
+      }
+    });
+
+    options.queryParameters.forEach((key, value) {
+      if (!mergedQueryParameters.containsKey(key)) {
+        mergedQueryParameters[key] = value;
+      } 
+    });
+    
     final dynamic data = options.data;
+    
     if (data == null) {
       request..size = 0;
     } else {
       if (data is FormData) {
         if (data.fields.isNotEmpty == true) {
           final fields = <FormDataField>[];
+          final map = <String, String>{};
+
           for (var entry in data.fields) {
             fields.add(FormDataField(entry.key, entry.value));
+            map[entry.key] = entry.value;
           }
+
           request.formDataFields = fields;
+          request.body = jsonEncode(map); 
         }
 
         if (data.files.isNotEmpty == true) {
@@ -90,7 +110,7 @@ class Interceptor extends InterceptorsWrapper {
       ..time = DateTime.now()
       ..headers = Helper.encodeRawJson(options.headers)
       ..contentType = options.contentType.toString()
-      ..queryParameters = options.queryParameters;
+      ..queryParameters = mergedQueryParameters;
 
     call
       ..request = request
