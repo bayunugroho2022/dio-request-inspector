@@ -16,6 +16,8 @@ class DioRequestInspector {
   factory DioRequestInspector({
     required bool isDebugMode,
     Duration? duration = const Duration(milliseconds: 500),
+ 
+    @Deprecated('will be removed in 3.1.5 or higher')
     bool showFloating = true,
     String? password = '',
   }) {
@@ -41,7 +43,6 @@ class DioRequestInspector {
       kIsDebug: isDebugMode,
       navigatorKey: navigatorObserver,
       duration: duration,
-      showFloating: showFloating,
       storage: _storage,
     );
   }

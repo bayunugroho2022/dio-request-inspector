@@ -1,3 +1,4 @@
+import 'package:dio_request_inspector/src/common/copy.dart';
 import 'package:dio_request_inspector/src/common/helpers.dart';
 import 'package:dio_request_inspector/src/model/http_activity.dart';
 import 'package:dio_request_inspector/src/page/detail/widgets/item_column.dart';
@@ -21,6 +22,21 @@ class _DetailPageState extends State<DetailPage> {
       child: DefaultTabController(
         length: 4,
         child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: AppColor.primary,
+            shape: const CircleBorder(),
+            onPressed: () {
+              Helper.copyToClipboard(
+                context: context,
+                text: Copy.getActivity(widget.data),
+                message: 'Activity copied to clipboard',
+              );
+             },
+            child: Icon(
+              Icons.copy,
+              color: AppColor.white,
+            ),
+          ),
           backgroundColor: AppColor.white,
           appBar: _appBar(context),
           body: _buildBody(context),
@@ -43,6 +59,22 @@ class _DetailPageState extends State<DetailPage> {
           },
           icon: Icon(Icons.arrow_back, color: AppColor.primary),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.code,
+              size: 20,
+              color: AppColor.primary,
+            ),
+            onPressed: () {
+              Helper.copyToClipboard(
+                context: context,
+                text: Copy.getCurlCommand(widget.data),
+                message: 'Curl command copied to clipboard',
+              );
+            },
+          ),
+        ],
         bottom: TabBar(
           labelStyle: TextStyle(color: AppColor.primary),
           indicatorColor: AppColor.primary,

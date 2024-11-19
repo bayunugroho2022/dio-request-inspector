@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 
 class Interceptor extends InterceptorsWrapper {
   final bool kIsDebug;
-  final bool showFloating;
   final Duration? duration;
   final HttpActivityStorage storage;
   NavigatorObserver? navigatorKey;
@@ -21,7 +20,6 @@ class Interceptor extends InterceptorsWrapper {
     required this.kIsDebug,
     required this.storage,
     this.duration = const Duration(milliseconds: 500),
-    this.showFloating = true,
     this.navigatorKey,
   });
 
@@ -59,10 +57,15 @@ class Interceptor extends InterceptorsWrapper {
       if (data is FormData) {
         if (data.fields.isNotEmpty == true) {
           final fields = <FormDataField>[];
+          final map = <String, String>{};
+
           for (var entry in data.fields) {
             fields.add(FormDataField(entry.key, entry.value));
+            map[entry.key] = entry.value;
           }
+
           request.formDataFields = fields;
+          request.body = jsonEncode(map); 
         }
 
         if (data.files.isNotEmpty == true) {
