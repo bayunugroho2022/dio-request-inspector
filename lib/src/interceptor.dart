@@ -50,7 +50,24 @@ class Interceptor extends InterceptorsWrapper {
 
     final request = HttpRequest();
 
+    final mergedQueryParameters = <String, dynamic>{};
+
+    uri.queryParameters.forEach((key, value) {
+      if (mergedQueryParameters.containsKey(key)) {
+        mergedQueryParameters[key] = [mergedQueryParameters[key], value].expand((e) => e is List ? e : [e]).toList();
+      } else {
+        mergedQueryParameters[key] = value;
+      }
+    });
+
+    options.queryParameters.forEach((key, value) {
+      if (!mergedQueryParameters.containsKey(key)) {
+        mergedQueryParameters[key] = value;
+      } 
+    });
+    
     final dynamic data = options.data;
+    
     if (data == null) {
       request..size = 0;
     } else {
@@ -93,7 +110,7 @@ class Interceptor extends InterceptorsWrapper {
       ..time = DateTime.now()
       ..headers = Helper.encodeRawJson(options.headers)
       ..contentType = options.contentType.toString()
-      ..queryParameters = options.queryParameters;
+      ..queryParameters = mergedQueryParameters;
 
     call
       ..request = request

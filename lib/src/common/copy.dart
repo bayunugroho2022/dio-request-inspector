@@ -11,19 +11,22 @@ class Copy {
 
     curlCmd.write(' -X ${call.method}');
 
-    for (final MapEntry<String, dynamic> header in Helper.decodeRawJson(call.request?.headers ?? '{}').entries) {
-      final headerValue = header.value.toString();
-      if (header.key.toLowerCase() == HttpHeaders.acceptEncodingHeader &&
-          headerValue.toLowerCase() == 'gzip') {
-        compressed = true;
-      }
+    final headers = Helper.decodeRawJson(call.request?.headers ?? '{}');
+    for (final MapEntry<String, dynamic> header in headers.entries) {
+      final headerValue = header.value?.toString() ?? '';
+      if (headerValue.isNotEmpty) {
+        if (header.key.toLowerCase() == HttpHeaders.acceptEncodingHeader &&
+            headerValue.toLowerCase() == 'gzip') {
+          compressed = true;
+        }
 
-      curlCmd.write(' -H "${header.key}: $headerValue"');
+        curlCmd.write(' -H "${header.key}: $headerValue"');
+      }
     }
 
-    final String? requestBody = call.request?.body.toString();
-    if (requestBody?.isNotEmpty ?? false) {
-      curlCmd.write(" --data \$'${requestBody?.replaceAll("\n", r"\n")}'");
+    final String? requestBody = call.request?.body?.toString();
+    if (requestBody != null && requestBody.isNotEmpty && requestBody != 'null') {
+      curlCmd.write(" --data \$'${requestBody.replaceAll("\n", r"\n")}'");
     }
 
     final Map<String, dynamic>? queryParamMap = call.request?.queryParameters;
@@ -42,15 +45,12 @@ class Copy {
       }
     }
 
-    // If server already has http(s) don't add it again
     if (call.server.contains('http://') || call.server.contains('https://')) {
-      // ignore: join_return_with_assignment
       curlCmd.write(
         "${compressed ? " --compressed " : " "}"
         "${"'${call.server}${call.endpoint}$queryParams'"}",
       );
     } else {
-      // ignore: join_return_with_assignment
       curlCmd.write(
         "${compressed ? " --compressed " : " "}"
         "${"'${call.secure ? 'https://' : 'http://'}${call.server}${call.endpoint}$queryParams'"}",
@@ -58,11 +58,12 @@ class Copy {
     }
 
     return curlCmd.toString();
-  }
-
-  
+  } 
 
   static String getActivity(HttpActivity data) {
+    var contentTypeList = data.response?.headers?["content-type"];
+    final isImage = contentTypeList != null && contentTypeList.any((element) => element.contains('image'));
+
     final StringBuffer activityDetails = StringBuffer();
 
     activityDetails.writeln('--- Curl Command ---');
@@ -95,10 +96,9 @@ class Copy {
     activityDetails.writeln('\n--- Response ---');
     activityDetails.writeln('Status Code: ${data.response?.status}');
     activityDetails.writeln('Headers: ${Helper.encodeRawJson(data.response?.headers)}');
-
     activityDetails.writeln('Body: ${(data.response?.body ?? '').isJson 
     ? data.response?.body.prettify
-    : data.response?.body}');
+    : isImage ? "Image Body" : data.response?.body}');
 
     if (data.error?.error != null) {
       activityDetails.writeln('\n--- Error ---');
