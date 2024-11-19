@@ -1,11 +1,15 @@
 
+## 3.1.6
+
+* fix: copy image format
+* feat: add maxline in item list activity
+
 ## 3.1.5
 
 * feat: add deprecated showFloating
 * feat: add copy detail activity
 * feat: add remove all activity 
 * feat: add copy to curl
-
 
 ## 3.1.4
 
