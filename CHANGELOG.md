@@ -1,8 +1,14 @@
 
+## 3.1.3
+
+* style: fix UI for not using material 3
+* chore: adjustment request & response
+* fix: password protection
+* chore: remove unused dependency
+
 ## 3.1.2
 
 * style: fix overflow
-
 
 ## 3.1.1
 

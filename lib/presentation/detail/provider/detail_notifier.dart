@@ -72,15 +72,15 @@ class DetailNotifier extends ChangeNotifier {
         showCopyButton: showCopyButton));
     _requests.add(CardItem(
         name: "Header:",
-        value: data?.request?.requestHeader ?? "N/A",
+        value: data?.request?.requestHeader ?? '',
         showCopyButton: showCopyButton));
     _requests.add(CardItem(
         name: "Query Parameter:",
-        value: data?.request?.params ?? "N/A",
+        value: data?.request?.params ?? '',
         showCopyButton: showCopyButton));
     _requests.add(CardItem(
         name: "Body:",
-        value: data?.request?.requestBody ?? "N/A",
+        value: data?.request?.requestBody ?? '',
         showCopyButton: showCopyButton));
 
     // response
@@ -101,14 +101,10 @@ class DetailNotifier extends ChangeNotifier {
 
     var contentTypeList = data?.response?.responseHeader?["content-type"];
     if (contentTypeList != null && contentTypeList.any((contentType) => contentType.contains("image"))) {
-      final uri = data!.request!.secure!
-          ? "https://${data?.request!.server!}${data?.request?.path}"
-          : "http://${data?.request!.server!}${data?.request?.path}";
-
       _responses.add(CardItem(
           name: "Body",
           isImage: true,
-          value: uri, 
+          value: data?.response?.responseBody ?? '',
       ));
     } else {
       _responses.add(CardItem(

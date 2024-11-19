@@ -1,4 +1,5 @@
 import 'package:dio_request_inspector/common/enums.dart';
+import 'package:dio_request_inspector/data/models/http_activity.dart';
 import 'package:dio_request_inspector/presentation/dashboard/provider/dashboard_notifier.dart';
 import 'package:dio_request_inspector/presentation/dashboard/widget/item_response_widget.dart';
 import 'package:dio_request_inspector/presentation/dashboard/widget/password_protection_dialog.dart';
@@ -18,7 +19,6 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -76,7 +76,10 @@ class _DashboardPageState extends State<DashboardPage> {
                           color: AppColor.primary,
                         )),
                     PopupMenuButton(
-                        icon: Icon(Icons.sort, color: AppColor.primary,),
+                        icon: Icon(
+                          Icons.sort,
+                          color: AppColor.primary,
+                        ),
                         iconColor: Colors.white,
                         itemBuilder: (context) {
                           return [
@@ -114,12 +117,10 @@ class _DashboardPageState extends State<DashboardPage> {
                             focusColor: AppColor.primary,
                             hintStyle: TextStyle(color: AppColor.primary),
                             focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.white),
+                              borderSide: BorderSide(color: Colors.white),
                             ),
                             enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Colors.white),
+                              borderSide: BorderSide(color: Colors.white),
                             ),
                           ),
                         ),
@@ -142,28 +143,89 @@ class _DashboardPageState extends State<DashboardPage> {
         child: Text('No Http Activities'),
       );
     } else {
-      return ListView.builder(
-        itemCount: provider.isSearch
-            ? provider.activityFromSearch.length
-            : provider.getAllResponses.length,
-        itemBuilder: (context, index) {
-          var data = provider.isSearch
-              ? provider.activityFromSearch[index]
-              : provider.getAllResponses[index];
-          return InkWell(
-            onTap: () {
-              Navigator.push<void>(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailPage(
-                    data: data,
-                  ),
+      return Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            width: double.infinity,
+            child: Card(
+              surfaceTintColor: Colors.transparent,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        Text('GET', style: TextStyle(color: AppColor.primary, fontSize: 14, fontWeight: FontWeight.bold)),
+                        SizedBox(height: 5),
+                        Text(_getTotalRequest(provider.getAllResponses, 'get')),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text('POST', style: TextStyle(color: AppColor.primary, fontSize: 14, fontWeight: FontWeight.bold)),
+                        SizedBox(height: 5),
+                        Text(_getTotalRequest(provider.getAllResponses, 'post')),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text('PUT', style: TextStyle(color: AppColor.primary, fontSize: 14, fontWeight: FontWeight.bold)),
+                        SizedBox(height: 5),
+                        Text(_getTotalRequest(provider.getAllResponses, 'put')),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text('PATCH', style: TextStyle(color: AppColor.primary, fontSize: 14, fontWeight: FontWeight.bold)),
+                        SizedBox(height: 5),
+                        Text(_getTotalRequest(provider.getAllResponses, 'patch')),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text('DELETE', style: TextStyle(color: AppColor.primary, fontSize: 14, fontWeight: FontWeight.bold)),
+                        SizedBox(height: 5),
+                        Text(_getTotalRequest(provider.getAllResponses, 'delete')),
+                      ],
+                    ),
+                  ],
                 ),
-              );
-            },
-            child: ItemResponseWidget(data: data),
-          );
-        },
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: provider.isSearch
+                  ? provider.activityFromSearch.length
+                  : provider.getAllResponses.length,
+              itemBuilder: (context, index) {
+                var data = provider.isSearch
+                    ? provider.activityFromSearch[index]
+                    : provider.getAllResponses[index];
+                return InkWell(
+                  onTap: () {
+                    Navigator.push<void>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailPage(
+                          data: data,
+                        ),
+                      ),
+                    );
+                  },
+                  child: ItemResponseWidget(data: data),
+                );
+              },
+            ),
+          ),
+        ],
       );
     }
   }
@@ -178,5 +240,12 @@ class _DashboardPageState extends State<DashboardPage> {
         );
       },
     );
+  }
+
+  String _getTotalRequest(List<HttpActivity> getAllResponses, String method) {
+    return getAllResponses
+        .where((e) => e.request?.method?.toLowerCase() == method)
+        .length
+        .toString();
   }
 }

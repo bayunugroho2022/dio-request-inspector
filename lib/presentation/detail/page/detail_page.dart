@@ -21,6 +21,7 @@ class DetailPage extends StatelessWidget {
             return DefaultTabController(
               length: 4,
               child: Scaffold(
+                backgroundColor: Colors.grey[200],
                 appBar: _appBar(context),
                 floatingActionButton: _floatingActionButton(context),
                 body: _buildBody(context),
@@ -34,6 +35,7 @@ class DetailPage extends StatelessWidget {
     return Consumer<DetailNotifier>(
       builder: (context, provider, child) {
         return TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             _overviewWidget(provider.overviews),
             _requestWidget(provider.requests),
@@ -120,6 +122,8 @@ class DetailPage extends StatelessWidget {
           icon: Icon(Icons.arrow_back, color: AppColor.primary),
         ),
         bottom: TabBar(
+          labelStyle: TextStyle(color: AppColor.primary),
+          indicatorColor: AppColor.primary,
           tabs: [
             Tab(
               text: 'Overview',
@@ -142,6 +146,8 @@ class DetailPage extends StatelessWidget {
             ),
           ],
         ),
-        backgroundColor: AppColor.white);
+        backgroundColor: AppColor.white,
+        surfaceTintColor: Colors.transparent,
+        );
   }
 }

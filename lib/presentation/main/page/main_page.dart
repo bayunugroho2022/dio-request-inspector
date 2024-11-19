@@ -1,4 +1,3 @@
-import 'package:dio_request_inspector/dio_request_inspector.dart';
 import 'package:dio_request_inspector/presentation/dashboard/page/dashboard_page.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +18,9 @@ class DioRequestInspectorMain extends StatelessWidget {
         }
         
         DioRequestInspector.navigatorObserver.navigator?.push(
-            MaterialPageRoute<dynamic>(builder: (_) => const DashboardPage()));
+            MaterialPageRoute<dynamic>(builder: (_) => DashboardPage(
+              password: inspector.password ?? '',
+            )));
       },
       child: child,
     );
