@@ -66,9 +66,6 @@ class Copy {
 
     final StringBuffer activityDetails = StringBuffer();
 
-    activityDetails.writeln('--- Curl Command ---');
-    activityDetails.writeln(getCurlCommand(data));
-
     activityDetails.writeln('\n--- HTTP Activity ---');
     activityDetails.writeln('Method: ${data.method}');
     activityDetails.writeln('Server: ${data.server}');

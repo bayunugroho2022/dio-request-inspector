@@ -11,21 +11,19 @@ import 'package:dio_request_inspector/src/model/http_response.dart';
 import 'package:flutter/material.dart';
 
 class Interceptor extends InterceptorsWrapper {
-  final bool kIsDebug;
-  final Duration? duration;
+  final bool isInspectorEnabled;
   final HttpActivityStorage storage;
   NavigatorObserver? navigatorKey;
 
   Interceptor({
-    required this.kIsDebug,
+    required this.isInspectorEnabled,
     required this.storage,
-    this.duration = const Duration(milliseconds: 500),
     this.navigatorKey,
   });
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if (!kIsDebug) {
+    if (!isInspectorEnabled) {
       handler.next(options);
       return;
     }
@@ -125,7 +123,7 @@ class Interceptor extends InterceptorsWrapper {
     Response<dynamic> response,
     ResponseInterceptorHandler handler,
   ) {
-    if (!kIsDebug) {
+    if (!isInspectorEnabled) {
       handler.next(response);
       return;
     }
@@ -149,7 +147,7 @@ class Interceptor extends InterceptorsWrapper {
 
   @override
   void onError(DioException error, ErrorInterceptorHandler handler) {
-    if (!kIsDebug) {
+    if (!isInspectorEnabled) {
       handler.next(error);
       return;
     }

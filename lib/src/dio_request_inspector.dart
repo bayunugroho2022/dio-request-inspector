@@ -8,47 +8,40 @@ class DioRequestInspector {
   static final HttpActivityStorage _storage = HttpActivityStorage();
   static final navigatorObserver = NavigatorObserver();
 
-  bool isDebugMode;
-  bool showFloating;
-  Duration? duration;
+  bool isInspectorEnabled;
   String? password;
+  bool? showSummary;
 
   factory DioRequestInspector({
-    required bool isDebugMode,
-    Duration? duration = const Duration(milliseconds: 500),
- 
-    @Deprecated('will be removed in 3.1.5 or higher')
-    bool showFloating = true,
+    required bool isInspectorEnabled,
     String? password = '',
+    bool? showSummary = true,
   }) {
-    _instance._init(isDebugMode, duration, showFloating, password);
+    _instance._init(isInspectorEnabled, password, showSummary);
     return _instance;
   }
 
   DioRequestInspector._internal()
-      : isDebugMode = false,
-        showFloating = true,
-        duration = const Duration(milliseconds: 500),
-        password = '';
+      : isInspectorEnabled = false,
+        password = '',
+        showSummary = true;
 
-  void _init(bool isDebugMode, Duration? duration, bool showFloating, String? password) {
-    this.isDebugMode = isDebugMode;
-    this.duration = duration;
-    this.showFloating = showFloating;
+  void _init(bool isInspectorEnabled, String? password, bool? showSummary) {
+    this.isInspectorEnabled = isInspectorEnabled;
     this.password = password;
+    this.showSummary = showSummary;
   }
 
   Interceptor getDioRequestInterceptor() {
     return Interceptor(
-      kIsDebug: isDebugMode,
+      isInspectorEnabled: isInspectorEnabled,
       navigatorKey: navigatorObserver,
-      duration: duration,
       storage: _storage,
     );
   }
 
   void goToInspector() {
-    if (!isDebugMode) {
+    if (!isInspectorEnabled) {
       return;
     }
 
@@ -58,7 +51,7 @@ class DioRequestInspector {
   void navigateToInspector() {
     navigatorObserver.navigator?.push(
       MaterialPageRoute<dynamic>(
-        builder: (_) => DashboardPage(password: password ?? '', storage: _storage),
+        builder: (_) => DashboardPage(password: password ?? '', storage: _storage, showSummary: showSummary ?? true),
       ),
     );
   }

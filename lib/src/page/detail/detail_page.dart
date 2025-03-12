@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:dio_request_inspector/src/common/copy.dart';
+import 'package:dio_request_inspector/src/common/extensions.dart';
 import 'package:dio_request_inspector/src/common/helpers.dart';
 import 'package:dio_request_inspector/src/model/http_activity.dart';
 import 'package:dio_request_inspector/src/page/detail/widgets/item_column.dart';
 import 'package:dio_request_inspector/src/page/detail/widgets/item_row.dart';
+import 'package:dio_request_inspector/src/page/detail/widgets/search_app_bar.dart';
+import 'package:dio_request_inspector/src/page/detail/widgets/search_highlight.dart';
 import 'package:dio_request_inspector/src/page/resources/app_color.dart';
 import 'package:flutter/material.dart';
 
@@ -15,97 +20,137 @@ class DetailPage extends StatefulWidget {
   State<DetailPage> createState() => _DetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> {
+class _DetailPageState extends State<DetailPage> with SingleTickerProviderStateMixin {
+  late SearchHighlightWidget _highlightTextController;
+  late TextEditingController _searchController;
+  late ScrollController _scrollController;
+  Timer? _debounceTimer;
+  late TabController _tabController;
+  bool _showSearch = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+    _scrollController = ScrollController();
+
+    final response = widget.data.response?.body ?? '';
+    _highlightTextController = SearchHighlightWidget(
+      text: response.isJson ? response.prettify : response,
+      scrollController: _scrollController,
+      selectedTextBackgroundColor: Colors.orange,
+      highlightTextBackgroundColor: Colors.yellow,
+      selectedHighlightedTextStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 19,
+      ),
+      highlightedTextStyle: const TextStyle(
+        color: Colors.black,
+        fontSize: 19,
+      ),
+    );
+
+    _tabController = TabController(length: 4, vsync: this);
+
+    _tabController.addListener(() {
+      if (_tabController.index == 2) {
+        setState(() {
+          _showSearch = true;
+        });
+      } else {
+        setState(() {
+          _showSearch = false;
+        });
+      }
+    });
+  }
+
+  void _onSearchChanged(String query) {
+    if (_debounceTimer?.isActive ?? false) {
+      _debounceTimer?.cancel();
+    }
+    _debounceTimer = Timer(const Duration(milliseconds: 0), () {
+      _highlightTextController.highlightSearchTerm(query);
+    });
+  }
+
+  @override
+  void dispose() {
+    _highlightTextController.dispose();
+    _searchController.dispose();
+    _scrollController.dispose();
+    _debounceTimer?.cancel();
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SelectionArea(
       child: DefaultTabController(
         length: 4,
         child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: AppColor.primary,
-            shape: const CircleBorder(),
-            onPressed: () {
-              Helper.copyToClipboard(
-                context: context,
-                text: Copy.getActivity(widget.data),
-                message: 'Activity copied to clipboard',
-              );
-             },
-            child: Icon(
-              Icons.copy,
-              color: AppColor.white,
-            ),
+          floatingActionButton: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                heroTag: "button_copy_curl",
+                backgroundColor: AppColor.primary,
+                shape: const CircleBorder(),
+                onPressed: () {
+                  Helper.copyToClipboard(
+                    context: context,
+                    text: Copy.getCurlCommand(widget.data),
+                    message: 'Curl command copied to clipboard',
+                  );
+                 },
+                child: Icon(
+                  Icons.code,
+                  color: AppColor.white,
+                ),
+              ),
+              SizedBox(height: 8),
+              FloatingActionButton(
+                heroTag: "button_copy_activity",
+                backgroundColor: AppColor.primary,
+                shape: const CircleBorder(),
+                onPressed: () {
+                  Helper.copyToClipboard(
+                    context: context,
+                    text: Copy.getActivity(widget.data),
+                    message: 'Activity copied to clipboard',
+                  );
+                 },
+                child: Icon(
+                  Icons.copy,
+                  color: AppColor.white,
+                ),
+              ),
+            ],
           ),
           backgroundColor: AppColor.white,
-          appBar: _appBar(context),
+          appBar: SearchAppBar(
+            tabController: _tabController,
+            showSearch: _showSearch,
+            controller: _searchController,
+            onSearch: (value) => _onSearchChanged(value),
+            onNextSearch: () {
+              _highlightTextController.highlightNext();
+            },
+            onPreviousSearch: () {
+              _highlightTextController.highlightPrevious();
+            },
+          ),
           body: _buildBody(context),
         ),
       ),
     );
   }
 
-  PreferredSizeWidget _appBar(BuildContext context) {
-    return AppBar(
-        title: Text('Detail Activity',
-            style: TextStyle(
-              color: AppColor.primary,
-            )),
-        elevation: 3,
-        surfaceTintColor: AppColor.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(Icons.arrow_back, color: AppColor.primary),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.code,
-              size: 20,
-              color: AppColor.primary,
-            ),
-            onPressed: () {
-              Helper.copyToClipboard(
-                context: context,
-                text: Copy.getCurlCommand(widget.data),
-                message: 'Curl command copied to clipboard',
-              );
-            },
-          ),
-        ],
-        bottom: TabBar(
-          labelStyle: TextStyle(color: AppColor.primary),
-          indicatorColor: AppColor.primary,
-          tabs: [
-            Tab(
-              text: 'Overview',
-              icon: Icon(
-                Icons.info,
-                color: AppColor.primary,
-              ),
-            ),
-            Tab(
-              text: 'Request',
-              icon: Icon(Icons.arrow_upward, color: AppColor.primary),
-            ),
-            Tab(
-              text: 'Response',
-              icon: Icon(Icons.arrow_downward, color: AppColor.primary),
-            ),
-            Tab(
-              text: 'Error',
-              icon: Icon(Icons.warning, color: AppColor.primary),
-            ),
-          ],
-        ),
-        backgroundColor: AppColor.white);
-  }
-
   Widget _buildBody(BuildContext context) {
     return TabBarView(
       physics: NeverScrollableScrollPhysics(),
+      controller: _tabController,
       children: [
         _overviewWidget(widget.data),
         _requestWidget(widget.data),
@@ -173,19 +218,41 @@ class _DetailPageState extends State<DetailPage> {
     final isImage = contentTypeList != null && contentTypeList.any((element) => element.contains('image'));
 
     return SingleChildScrollView(
+      controller: _highlightTextController.scrollController,
       physics: const BouncingScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-        child: Column(
-          children: [
-            ItemRow(name: 'Received :', value: data.response?.time.toString()),
-            ItemRow(name: 'Status Code :', value: data.response?.status.toString()),
-            ItemRow(name: 'Bytes Received :', value: Helper.formatBytes(data.response?.size ?? 0)),
-            ItemRow(name: 'Headers', value: Helper.encodeRawJson(data.response?.headers), useHeaderFormat: true),
-            if (!isImage) ItemColumn(name: 'Body :', value: data.response?.body),
-            if (isImage) ItemColumn(name: 'Body :', value: '', isImage: isImage, showCopyButton: false,),
-          ],
-        ),
+      child: ValueListenableBuilder<List<HighlightSpanWidget>>(
+        valueListenable: _highlightTextController.highlightsNotifier,
+        builder: (context, highlights, child) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: Column(
+              children: [
+                ItemRow(name: 'Received :', value: data.response?.time.toString()),
+                ItemRow(name: 'Status Code :', value: data.response?.status.toString()),
+                ItemRow(name: 'Bytes Received :', value: Helper.formatBytes(data.response?.size ?? 0)),
+                ItemRow(name: 'Headers', value: Helper.encodeRawJson(data.response?.headers), useHeaderFormat: true),
+                if (!isImage) ItemColumn(
+                  name: 'Body :',
+                  value: data.response?.body,
+                  child: TextField(
+                    readOnly: true,
+                    controller: _highlightTextController,
+                    maxLines: null,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey[100],
+                    ),
+                    style: TextStyle(fontSize: 14),
+                    onChanged: (value) {
+                      _onSearchChanged(_searchController.text.trim());
+                    },
+                  ),
+                ),
+                if (isImage) ItemColumn(name: 'Body :', value: '', isImage: isImage, showCopyButton: false,),
+              ],
+            ),
+          );
+        }
       ),
     );
   }

@@ -1,4 +1,14 @@
 
+## 3.2.0
+
+* chore: update dio to ^5.8.0+1
+* chore: update equatable to ^2.0.7
+* chore: update share_plus to ^10.1.4
+* chore: remove showFloating
+* chore: renaming `isDebugMode` to `isInspectorEnabled`
+* feat: add showSummary flagging
+* feat: add response body searching
+
 ## 3.1.6
 
 * fix: copy image format
