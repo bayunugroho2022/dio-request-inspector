@@ -11,9 +11,14 @@ import 'dart:async';
 class DashboardPage extends StatefulWidget {
   final String password;
   final HttpActivityStorage storage;
+  final bool showSummary;
 
-  const DashboardPage({Key? key, this.password = '', required this.storage})
-      : super(key: key);
+  const DashboardPage({
+    Key? key, 
+    this.password = '', 
+    required this.storage, 
+    required this.showSummary, 
+  }) : super(key: key);
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();
@@ -224,88 +229,91 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget _buildBody(List<HttpActivity> filteredActivities) {
     return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(8.0),
-          width: double.infinity,
-          child: Card(
-            surfaceTintColor: Colors.transparent,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-            color: Colors.white,
-            child: ListTileTheme(
-              contentPadding: EdgeInsets.all(0),
-              dense: true,
-              horizontalTitleGap: 0.0,
-              minLeadingWidth: 0,
-              child: Theme(
-                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                child: ExpansionTile(
-                  tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-                  title: const Text('Total'),
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            Text('GET',
-                                style: TextStyle(
-                                    color: AppColor.primary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold)),
-                            SizedBox(height: 5),
-                            Text(_getTotalRequest(filteredActivities, 'get')),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text('POST',
-                                style: TextStyle(
-                                    color: AppColor.primary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold)),
-                            SizedBox(height: 5),
-                            Text(_getTotalRequest(filteredActivities, 'post')),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text('PUT',
-                                style: TextStyle(
-                                    color: AppColor.primary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold)),
-                            SizedBox(height: 5),
-                            Text(_getTotalRequest(filteredActivities, 'put')),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text('PATCH',
-                                style: TextStyle(
-                                    color: AppColor.primary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold)),
-                            SizedBox(height: 5),
-                            Text(_getTotalRequest(filteredActivities, 'patch')),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text('DELETE',
-                                style: TextStyle(
-                                    color: AppColor.primary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold)),
-                            SizedBox(height: 5),
-                            Text(_getTotalRequest(filteredActivities, 'delete')),
-                          ],
-                        ),
-                      ],
-                    )
-                  ],
+        Visibility(
+          visible: widget.showSummary,
+          child: Container(
+            padding: const EdgeInsets.all(8.0),
+            width: double.infinity,
+            child: Card(
+              surfaceTintColor: Colors.transparent,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+              color: Colors.white,
+              child: ListTileTheme(
+                contentPadding: EdgeInsets.all(0),
+                dense: true,
+                horizontalTitleGap: 0.0,
+                minLeadingWidth: 0,
+                child: Theme(
+                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    tilePadding: const EdgeInsets.symmetric(horizontal: 16),
+                    title: const Text('Total'),
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              Text('GET',
+                                  style: TextStyle(
+                                      color: AppColor.primary,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold)),
+                              SizedBox(height: 5),
+                              Text(_getTotalRequest(filteredActivities, 'get')),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text('POST',
+                                  style: TextStyle(
+                                      color: AppColor.primary,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold)),
+                              SizedBox(height: 5),
+                              Text(_getTotalRequest(filteredActivities, 'post')),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text('PUT',
+                                  style: TextStyle(
+                                      color: AppColor.primary,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold)),
+                              SizedBox(height: 5),
+                              Text(_getTotalRequest(filteredActivities, 'put')),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text('PATCH',
+                                  style: TextStyle(
+                                      color: AppColor.primary,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold)),
+                              SizedBox(height: 5),
+                              Text(_getTotalRequest(filteredActivities, 'patch')),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text('DELETE',
+                                  style: TextStyle(
+                                      color: AppColor.primary,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold)),
+                              SizedBox(height: 5),
+                              Text(_getTotalRequest(filteredActivities, 'delete')),
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

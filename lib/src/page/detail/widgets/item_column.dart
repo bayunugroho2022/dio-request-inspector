@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class ItemColumn extends StatelessWidget {
   final String? name;
   final String? value;
+  final Widget? child;
   final bool showCopyButton;
   final bool isImage;
 
@@ -14,6 +15,7 @@ class ItemColumn extends StatelessWidget {
     this.value,
     this.showCopyButton = true,
     this.isImage = false,
+    this.child,
   }) : super(key: key);
 
   @override
@@ -60,18 +62,23 @@ class ItemColumn extends StatelessWidget {
           ),
 
         if (!isImage)
-          SizedBox(
-            width: double.infinity,
-            child: Card(
-              elevation: 0,
-              color: Colors.grey[100],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  value!.isJson ? value!.prettify : value!,
+          if (child != null) child!,
+
+          Visibility(
+            visible: child == null,
+            child: SizedBox(
+              width: double.infinity,
+              child: Card(
+                elevation: 0,
+                color: Colors.grey[100],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    value!.isJson ? value!.prettify : value!,
+                  ),
                 ),
               ),
             ),

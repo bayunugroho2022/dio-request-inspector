@@ -56,10 +56,9 @@ void main() {
 
 ```dart
 final DioRequestInspector inspector = DioRequestInspector(
-  isDebugMode: true,
-  duration: const Duration(milliseconds: 500),
-  showFloating: true,
-  password: '123456',
+  isInspectorEnabled: true,
+  password: '123456', // remove this line if you don't need password
+  showSummary: false,
 );
 
 dio.interceptors.add(inspector.getDioRequestInterceptor());

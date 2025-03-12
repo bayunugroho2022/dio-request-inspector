@@ -13,13 +13,11 @@ class DioRequestInspectorMain extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPress: () {
-        if (!inspector.isDebugMode) {
+        if (!inspector.isInspectorEnabled) {
           return;
         }
 
-        inspector.goToInspector(
-          
-        );
+        inspector.goToInspector();
       },
       child: child,
     );
