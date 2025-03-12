@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:io' show Cookie;
 import 'package:equatable/equatable.dart';
 import 'form_data.dart';
